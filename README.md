@@ -1,0 +1,3 @@
+# szakvizsga
+jo lesz
+kagga
