@@ -14,7 +14,7 @@ void mainwindow()
 		cout << "VIDEO INIT HIBA!";
 	else
 	{
-		window = SDL_CreateWindow("Szakvizsga program", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 256, 140, SDL_WINDOW_SHOWN); //felbontast itt valtoztatunk
+		window = SDL_CreateWindow("Szakvizsga program", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720, SDL_WINDOW_SHOWN); //felbontast itt valtoztatunk
 		screenSurface = SDL_GetWindowSurface(window);
 		SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF)); //kitoltom feherrel a feluletet
 		SDL_UpdateWindowSurface(window);
