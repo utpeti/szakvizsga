@@ -9,5 +9,7 @@
 
 int main()
 {
+	bool quit = false;
+	SDL_Event e;
 	mainwindow();
 }
