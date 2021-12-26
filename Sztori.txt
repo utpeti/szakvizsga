@@ -1,0 +1,38 @@
+Introduction:
+Once upon a time there was a well known adventurer, you. You lived in the strong Assyrian Empire along with your comrades whom you knew very well, and vice versa. The same goes for the walls, for every mouse hole, for every pub, for every hideout. Neither was the king an exception. He has entrusted you with a bunch of missions throughout the years which you completed without any problems. 
+(Kastélyos háttér)
+
+Intriga:
+One day the emperor called you in. (elsötétül a háttér csak a betük látszanak)
+Dialog I (palota belső része, a képernyő bal szélén a hős, jobb szélén a király):
+Emperor: You are probably wondering why I invited you to my splendid palace! Unfortunately, my daughter has been kidnapped!
+You: This is the fifth time this year...
+Emperor: Therefore, I kindly please you to help her.
+You: Where is she?
+Empereror: Gossips say she is in the dangerous Magic Mine! So, do you accept the mission?
+
+Elsötétül megint minden -> választani kell:  -Yes /  -No
+
+	No (akasztófás kép): For you have denied the emperor's command you have been hanged
+
+	Yes(útelágozós kép): Along your journey you came across an intersection.
+
+	!You continue your route to the:
+	-left
+	-right
+	
+	left(hidas kép): You have met with your old friend Gibbon the goblin:
+	GIBBON: So we meet again! You already know my conditions: either you pay or you die!
+	YOU: If you weren't an endangered species I would have killed you 10 times already.
+	GOBLIN: So what is your next move?
+	
+	(elsötétül minden)
+	
+		Don't pay and try to escape: He stabbed you 45 times with his butterknife and you died a horrible death.
+
+		Pay(bányás kép)
+	
+	right(bányás kép)
+
+	
+		
