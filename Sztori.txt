@@ -34,5 +34,18 @@ Elsötétül megint minden -> választani kell:  -Yes /  -No
 	
 	right(bányás kép)
 
+
+	(Bányás kép): Now at the entrance of the mine you run into a miner.
+	MINER: Halt! You shall not pass, unless you answer my question!
+	YOU: I don't have any money on me, ask Gibbon.
+	MINER: I don't care about your filthy money! My question is: at what depth can you find diamond?
+	- 11 meters
+	- 170 kilometers
+	- 16 meters
 	
+	(elsötétül minden)
+	
+		Nem 11 meter: (akasztófás kép) Since you couldn't complete the Emperors' task you have been hanged as a punishment.
 		
+	11 meter
+	
