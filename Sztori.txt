@@ -48,4 +48,21 @@ Elsötétül megint minden -> választani kell:  -Yes /  -No
 		Nem 11 meter: (akasztófás kép) Since you couldn't complete the Emperors' task you have been hanged as a punishment.
 		
 	11 meter
-	
+
+(Bánya, teljesen sötét kép): You managed to enter a mine...good job! Everyone is proud of you. 
+(Pick up a torch 'button'): You've got a torch too. You are getting better, champ!
+(Kivilágosodik a kép): It seems to be a junction. You choose the path:
+on the left
+in the midst/middle(?)
+on the right
+
+left:
+(megerkezik a kiralylanyahoz) -ezt egyutt kitalaljuk
+After a prolonged walk you arrive to the mighty glorious noble wise Supreme Leader's daughter.
+
+middle:
+You've noticed a well hidden trap behind an enormous rock and you try to evite it. You die due to your fourth stage lung cancer.
+
+right:
+(megerkezik a kiralylanyhoz) -ezt egyutt kitalaljuk
+You've arrived easily to the Emperor's daughter. Luckily you've picked the best possible path.
