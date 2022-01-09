@@ -31,7 +31,7 @@ Elsötétül megint minden -> választani kell:  -Yes /  -No
 		Don't pay and try to escape: He stabbed you 45 times with his butterknife and you died a horrible death.
 
 		Pay
-		GIBBON: Remember, if you ever reach the mine, go left or right, that's the only way you will survive.
+		GIBBON: Remember, if you ever reach the mine, I have a little present for you on the middle road. MU-HA-HA-HA.
 		(bányás kép)
 	
 	right(bányás kép)
