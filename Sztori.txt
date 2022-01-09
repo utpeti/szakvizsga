@@ -78,3 +78,27 @@ PRINCESS: If you came here to bring me back there, you can already get lost! The
 YOU: What about the miner?
 PRINCESS: I payed him to defend me and let in only those people that have an IQ level above room temperature. You know, I need a company sometimes. But not with those jerk servant, they know nothing!
 
+Anyway...why did you come here?
+-The Emperor sent me --I should have known...
+-I was just being around --Liar!
+-Beacuse of the reward --Get out of here!
+
+Why do you help for my father?
+-For the reward --Get out of here!
+-I know you since you have born, I had to help
+-I have been given an order.
+
+Please, leave me alone!
+-You know I can't do that, Miss...It's my duty to return you to the Emperor. -- I order you to go!
+-I beg you, you can't stay here forever, Miss! --I can do whatever I want.
+-Without you? Never! -- ^-^
+
+I don't want to go back to my father!
+-You will come back, doesn't matter if you want to or not, Miss.
+-You have to. Otherwise both of us will die.
+-I have an offer for you
+	If you come back with me:
+	-I will marry you.
+	-I will kill your wicked father.
+	-I will talk to your father.
+	
