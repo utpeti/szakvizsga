@@ -53,7 +53,7 @@ Elsötétül megint minden -> választani kell:  -Yes /  -No
 (Pick up a torch 'button'): You've got a torch too. You are getting better, champ!
 (Kivilágosodik a kép): It seems to be a junction. You choose the path:
 on the left
-in the midst/middle(?)
+in the middle
 on the right
 
 left:
