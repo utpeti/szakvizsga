@@ -24,13 +24,15 @@ Elsötétül megint minden -> választani kell:  -Yes /  -No
 	left(hidas kép): You have met with your old friend Gibbon the goblin:
 	GIBBON: So we meet again! You already know my conditions: either you pay or you die!
 	YOU: If you weren't an endangered species I would have killed you 10 times already.
-	GOBLIN: So what is your next move?
+	GIBBON: So what is your next move?
 	
 	(elsötétül minden)
 	
 		Don't pay and try to escape: He stabbed you 45 times with his butterknife and you died a horrible death.
 
-		Pay(bányás kép)
+		Pay
+		GIBBON: Remember, if you ever reach the mine, go left or right, that's the only way you will survive.
+		(bányás kép)
 	
 	right(bányás kép)
 
