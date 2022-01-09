@@ -69,3 +69,12 @@ You've noticed a well hidden trap behind an enormous rock and you try to evite i
 right:
 (megerkezik a kiralylanyhoz) -ezt egyutt kitalaljuk
 You've arrived easily to the Emperor's daughter. Luckily you've picked the best possible path.
+
+Elsötétül - kivilágosodik)
+Entering into the depths of the cave you notice the girl crying on a rock. You look around and find no monster, no burglar, no final boss which you could fight with. Nevertheless, you are precautious, and slowly approach her:
+
+YOU: Excuse me Miss! There is no need to be devastated anymore! I came here for your rescue, just kindly tell me where is you kidnapper!
+PRINCESS: If you came here to bring me back there, you can already get lost! There is no terrifying monster here, I came here on my own.
+YOU: What about the miner?
+PRINCESS: I payed him to defend me and let in only those people that have an IQ level above room temperature. You know, I need a company sometimes. But not with those jerk servant, they know nothing!
+
