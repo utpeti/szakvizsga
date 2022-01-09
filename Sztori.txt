@@ -38,16 +38,17 @@ Elsötétül megint minden -> választani kell:  -Yes /  -No
 	(Bányás kép): Now at the entrance of the mine you run into a miner.
 	MINER: Halt! You shall not pass, unless you answer my question!
 	YOU: I don't have any money on me, ask Gibbon.
-	MINER: I don't care about your filthy money! My question is: at what depth can you find diamond?
-	- 11 meters
-	- 170 kilometers
-	- 16 meters
+	MINER: I don't care about your filthy money! My question is: what is the integral of (x-2)/sqrt(1-x^2)?
+	- - sqrt(1 - x^2) - 2 * x * arcsin(x) + c
+	- - sqrt(1 - x^2) - 2arcsin(x) + c
+	- - sqrt(1 - x) - 2x*arcsin(x) + c
+	
 	
 	(elsötétül minden)
 	
-		Nem 11 meter: (akasztófás kép) Since you couldn't complete the Emperors' task you have been hanged as a punishment.
+		Nem a kozépső: (akasztófás kép) Since you couldn't complete the Emperors' task you have been hanged as a punishment.
 		
-	11 meter
+	A középső:
 
 (Bánya, teljesen sötét kép): You managed to enter a mine...good job! Everyone is proud of you. 
 (Pick up a torch 'button'): You've got a torch too. You are getting better, champ!
