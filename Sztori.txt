@@ -46,7 +46,9 @@ Elsötétül megint minden -> választani kell:  -Yes /  -No
 	
 	(elsötétül minden)
 	
-		Nem a kozépső: (akasztófás kép) Since you couldn't complete the Emperors' task you have been hanged as a punishment.
+		Nem a kozépső:
+			MINER: WRONG! We do not let in here some idiot!
+			(akasztófás kép) Since you couldn't complete the Emperors' task you have been hanged as a punishment.
 		
 	A középső:
 
