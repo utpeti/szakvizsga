@@ -5,21 +5,22 @@
 #include "../SDL2/SDL2_Image/include/SDL_image.h"
 #include "../SDL2/SDL2_mixer/include/SDL_mixer.h"
 #include "../SDL2/SDL2_ttf/include/SDL_ttf.h"
+#include "functions.h"
 /*#include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>*/
 
-const int BUTTON_WIDTH = 80;
-const int BUTTON_HEIGHT = 48;
+extern const int BUTTON_WIDTH;
+extern const int BUTTON_HEIGHT;
 
 extern SDL_Window* Window;
 extern SDL_Renderer* Renderer;
+extern bool stage1, mainMenu;
 
 enum ButtonFunction : Uint8
 {
-	BUTTONSTART = 1,
-	BUTTONEXIT,
+	BUTTONSTART,
 };
 
 
@@ -35,7 +36,7 @@ public:
 
 	bool loadFromFile(std::string path);
 
-	void render(int x, int y, SDL_Rect* clip);
+	void render(int x, int y, SDL_Rect* clip, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
 private:
 
@@ -45,24 +46,27 @@ private:
 	int mHeight;
 };
 
+
+///oroklodes??
 class LButtonPosition
 {
 public:
 	LButtonPosition();
 
-	~LButtonPosition();
-
 	void setPosition(int x, int y);
+
+	int getPosx();
+
+	int getPosy();
 
 	void HandleEvent(SDL_Event* e);
 
 	void buttonEvent();
 
-	bool active;
+	int index;
 
 private:
 	SDL_Point LPosition;
-	int index;
 };
 
 LBackground::LBackground()
@@ -117,7 +121,7 @@ bool LBackground::loadFromFile(std::string path)
 	return true;
 }
 
-void LBackground::render(int x, int y, SDL_Rect* clip)
+void LBackground::render(int x, int y, SDL_Rect* clip, SDL_RendererFlip flip)
 {
 
 	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
@@ -135,7 +139,6 @@ LButtonPosition::LButtonPosition()
 {
 	LPosition.x = LPosition.y = 0;
 	index = 0;
-	active = false;
 }
 
 void LButtonPosition::setPosition(int x, int y)
@@ -193,10 +196,17 @@ void LButtonPosition::buttonEvent()
 {
 	if (index == BUTTONSTART)
 	{
-		stage1();
+		mainMenu = false;
+		stage1 = true;
 	}
-	else if (index == BUTTONEXIT)
-	{
+}
 
-	}
+int LButtonPosition::getPosx()
+{
+	return LPosition.x;
+}
+
+int LButtonPosition::getPosy()
+{
+	return LPosition.y;
 }
