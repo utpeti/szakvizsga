@@ -1,23 +1,37 @@
+#pragma once
 #include <iostream>
 #include "../SDL2/include/SDL.h"
 #include "../SDL2/SDL2_Image/include/SDL_image.h"
 #include "../SDL2/SDL2_mixer/include/SDL_mixer.h"
 #include "../SDL2/SDL2_ttf/include/SDL_ttf.h"
+#include "Classes.h"
 /*#include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>*/
-#include "Classes.h"
 
-#pragma once
 
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 
+const int BUTTON_WIDTH = 300;
+const int BUTTON_HEIGHT = 100;
+
+const int MAX_BUTTONS = 2;
+
 SDL_Window* Window = NULL;
 SDL_Renderer* Renderer = NULL;
-LBackground kastely; 
+
+LBackground kastely, kastely_belso, elag, banya, banyaelag; 
+
+//textura gomboknak ezt a ket classt ossze lehetne tenni
+LBackground buttonsTexture[5];
+
 LButtonPosition buttons[5];
+
+TTF_Font* gFont = NULL;
+
+bool mainMenu, stage1;
 
 bool init()
 {
@@ -56,6 +70,12 @@ bool init()
         return false;
     }
 
+    if (TTF_Init() == -1)
+    {
+        std::cout << TTF_GetError() << "\n";
+        return false;
+    }
+
     //initialize sdl mixer
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096) < 0)    //sound frequency(44100-standard), sample format
     {
@@ -70,17 +90,39 @@ bool init()
 
 bool loadMedia()
 {
+    ///Backgrounds
     if (!kastely.loadFromFile("Images/Kastely.png"))
     {
-        std::cout << IMG_GetError() << std::endl;
+        std::cout << IMG_GetError() << "\n";
         return false;
     }
+    if (!kastely_belso.loadFromFile("Images/kastely_belso.png"))
+    {
+        std::cout << IMG_GetError() << "\n";
+        return false;
+    }
+
+    ///button(s)
+    if (!buttonsTexture[0].loadFromFile("Images/start.png"))
+    {
+        std::cout << IMG_GetError() << "\n";
+        return false;
+    }
+    ///Characters///
+
+
+
+
+    ///TTF letters///
+
+
+
+    ///Button position///
+    buttons[0].setPosition(SCREEN_WIDTH / 2 - BUTTON_WIDTH / 2, SCREEN_HEIGHT / 2 - BUTTON_HEIGHT / 2); ///kozepen
+
+    //buttons indexes
+    for (int i = 0; i < MAX_BUTTONS; ++i)
+        buttons[i].index = i;
+    
     return true;
-
-    buttons[1].setPosition(SCREEN_HEIGHT / 2 - BUTTON_HEIGHT, SCREEN_WIDTH / 2 - BUTTON_WIDTH);
-}
-
-void stage1()
-{
-    kastely.render(0, 0, NULL);
 }
