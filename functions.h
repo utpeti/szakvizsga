@@ -22,16 +22,14 @@ const int MAX_BUTTONS = 2;
 SDL_Window* Window = NULL;
 SDL_Renderer* Renderer = NULL;
 
-LBackground kastely, kastely_belso, elag, banya, banyaelag; 
+LImage mainMenu, kastely, kastely_belso, elag, banya, banyaelag; 
 
 //textura gomboknak ezt a ket classt ossze lehetne tenni
-LBackground buttonsTexture[5];
-
 LButtonPosition buttons[5];
 
 TTF_Font* gFont = NULL;
 
-bool mainMenu, stage1;
+bool b_mainMenu, b_stage1;
 
 bool init()
 {
@@ -90,7 +88,13 @@ bool init()
 
 bool loadMedia()
 {
-    ///Backgrounds
+    ///Backgrounds to do full fekete transitionnak
+
+    if (!mainMenu.loadFromFile("Images/main_menu_hatter.png"))
+    {
+        std::cout << IMG_GetError() << "\n";
+        return false;
+    }
     if (!kastely.loadFromFile("Images/Kastely.png"))
     {
         std::cout << IMG_GetError() << "\n";
@@ -103,7 +107,7 @@ bool loadMedia()
     }
 
     ///button(s)
-    if (!buttonsTexture[0].loadFromFile("Images/start.png"))
+    if (!buttons[0].loadFromFile("Images/start.png"))
     {
         std::cout << IMG_GetError() << "\n";
         return false;
