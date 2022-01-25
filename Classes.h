@@ -16,7 +16,7 @@ extern const int BUTTON_HEIGHT;
 
 extern SDL_Window* Window;
 extern SDL_Renderer* Renderer;
-extern bool stage1, mainMenu;
+extern bool b_stage1, b_mainMenu;
 
 enum ButtonFunction : Uint8
 {
@@ -24,13 +24,13 @@ enum ButtonFunction : Uint8
 };
 
 
-class LBackground
+class LImage
 {
 public:
 
-	LBackground();
+	LImage();
 
-	~LBackground();
+	~LImage();
 
 	void free();
 
@@ -38,7 +38,9 @@ public:
 
 	void render(int x, int y, SDL_Rect* clip, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
-private:
+	void setAlpha(Uint8 alpha);
+
+protected:
 
 	SDL_Texture* mTexture;
 
@@ -48,7 +50,7 @@ private:
 
 
 ///oroklodes??
-class LButtonPosition
+class LButtonPosition : public LImage
 {
 public:
 	LButtonPosition();
@@ -69,19 +71,19 @@ private:
 	SDL_Point LPosition;
 };
 
-LBackground::LBackground()
+LImage::LImage()
 {
 	mTexture = NULL;
 	mWidth = 0;
 	mHeight = 0;
 }
 
-LBackground::~LBackground()
+LImage::~LImage()
 {
 	free();
 }
 
-void LBackground::free()
+void LImage::free()
 {
 	if (mTexture != NULL)
 	{
@@ -92,7 +94,7 @@ void LBackground::free()
 	}
 }
 
-bool LBackground::loadFromFile(std::string path)
+bool LImage::loadFromFile(std::string path)
 {
 	//get rid of pre existing texture
 	free();
@@ -121,7 +123,7 @@ bool LBackground::loadFromFile(std::string path)
 	return true;
 }
 
-void LBackground::render(int x, int y, SDL_Rect* clip, SDL_RendererFlip flip)
+void LImage::render(int x, int y, SDL_Rect* clip, SDL_RendererFlip flip)
 {
 
 	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
@@ -133,6 +135,11 @@ void LBackground::render(int x, int y, SDL_Rect* clip, SDL_RendererFlip flip)
 		
 	}
 	SDL_RenderCopy(Renderer, mTexture, clip, &renderQuad);
+}
+
+void LImage::setAlpha(Uint8 alpha)
+{
+	SDL_SetTextureAlphaMod(mTexture, alpha);//set the opacity of the texture from 0 to 255
 }
 
 LButtonPosition::LButtonPosition()
@@ -196,8 +203,8 @@ void LButtonPosition::buttonEvent()
 {
 	if (index == BUTTONSTART)
 	{
-		mainMenu = false;
-		stage1 = true;
+		b_mainMenu = false;
+		b_stage1 = true;
 	}
 }
 
