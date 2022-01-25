@@ -15,12 +15,12 @@ using namespace std;
 extern SDL_Window* Window;
 extern SDL_Renderer* Renderer;
 extern LButtonPosition buttons[5];
-extern bool mainMenu, stage1;
+extern bool b_mainMenu, b_stage1;
 
 
 int main()
 {
-	mainMenu = true;
+	b_mainMenu = true;
 	if (init())
 	{
 		if (loadMedia())
@@ -37,30 +37,28 @@ int main()
 						quit = true;
 					}
 
-					if (mainMenu)
+					if (b_mainMenu)
 					{
-						for (int i = 0; i < 2; ++i)
-						{
-							buttons[i].HandleEvent(&e);
-						}
+						buttons[0].HandleEvent(&e);
 					}
 
 				}
 
 				///Cleaning
-				SDL_SetRenderDrawColor(Renderer, 121, 85, 72, 255);
+				SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
 				SDL_RenderClear(Renderer);
-				
+
 				///Main Menu
 				//To do: gomb aktivalas, hatter, szoveg
-				if (mainMenu)
+				if (b_mainMenu)
 				{
-					
-					buttonsTexture[0].render(buttons[0].getPosx(), buttons[0].getPosy(), NULL);
+					mainMenu.render(0, 0, NULL);
+					buttons[0].render(buttons[0].getPosx(), buttons[0].getPosy(), NULL);
 					
 				}
-				else if (stage1)
+				else if (b_stage1)
 				{
+					
 					kastely_belso.render(0, 0, NULL);
 				}
 				//else if
