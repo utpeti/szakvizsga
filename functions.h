@@ -5,11 +5,12 @@
 #include "../SDL2/SDL2_mixer/include/SDL_mixer.h"
 #include "../SDL2/SDL2_ttf/include/SDL_ttf.h"
 #include "Classes.h"
+#include <string>
+#include <sstream>
 /*#include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>*/
-
 
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
@@ -22,14 +23,27 @@ const int MAX_BUTTONS = 2;
 SDL_Window* Window = NULL;
 SDL_Renderer* Renderer = NULL;
 
-LImage mainMenu, kastely, kastely_belso, elag, banya, banyaelag; 
+LImage mainMenu, blackTrans, kastely, kastely_belso, elag, banya, banyaelag;
+LImage textBox;
+LImage textBoxtext1, textBoxtext2, textBoxtext3, textBoxtext4, textBoxtext5, textBoxtext6, textBoxtext7;
+LImage mainMenuText;
+
 
 //textura gomboknak ezt a ket classt ossze lehetne tenni
 LButtonPosition buttons[5];
 
-TTF_Font* gFont = NULL;
+TTF_Font* menuFont = NULL;
+TTF_Font* textFont = NULL;
 
-bool b_mainMenu, b_stage1;
+//ezeken keresztul valosul meg a potyoges illuzioja, mutatja mennyi toltodjon be a szovegbol az utolso a height - > beolti a teljes betut nem vagja le a felet
+SDL_Rect textTransition1 = { 0, 0, 0, 15 };
+SDL_Rect textTransition2 = { 0, 0, 0, 15 };
+SDL_Rect textTransition3 = { 0, 0, 0, 15 };
+SDL_Rect textTransition4 = { 0, 0, 0, 15 };
+
+bool b_mainMenu, b_stage1, b_stage2;
+bool dia[10];
+Uint8 darkness = 255;
 
 bool init()
 {
@@ -88,8 +102,32 @@ bool init()
 
 bool loadMedia()
 {
-    ///Backgrounds to do full fekete transitionnak
+    ///TTF fonts///
+    menuFont = TTF_OpenFont("prstart.ttf", 100);
+    if (menuFont == NULL)
+    {
+        std::cout << TTF_GetError() << "\n";
+        return false;
+    }
+    textFont = TTF_OpenFont("prstart.ttf", 15);
+    if(textFont == NULL)
+    {
+        std::cout << TTF_GetError() << "\n";
+        return false;
+    }
 
+    ///Backgrounds
+    if (!textBox.loadFromFile("Images/text_box.png"))
+    {
+        std::cout << IMG_GetError() << "\n";
+        return false;
+    }
+    textBox.setAlpha(130);
+    if (!blackTrans.loadFromFile("Images/black_transition.png"))
+    {
+        std::cout << IMG_GetError() << "\n";
+        return false;
+    }
     if (!mainMenu.loadFromFile("Images/main_menu_hatter.png"))
     {
         std::cout << IMG_GetError() << "\n";
@@ -105,6 +143,14 @@ bool loadMedia()
         std::cout << IMG_GetError() << "\n";
         return false;
     }
+    ///Texts///
+    SDL_Color textColor = {0, 0, 0};
+    if (!mainMenuText.loadFromRenderedText("Sex The Game", textColor, menuFont))
+    {
+        std::cout << TTF_GetError() << "\n";
+        return false;
+    }
+
 
     ///button(s)
     if (!buttons[0].loadFromFile("Images/start.png"))
@@ -117,8 +163,7 @@ bool loadMedia()
 
 
 
-    ///TTF letters///
-
+    
 
 
     ///Button position///
@@ -130,3 +175,90 @@ bool loadMedia()
     
     return true;
 }
+
+void loadTextsStage1() //loads initial texts
+{
+    if (!textBoxtext1.loadFromRenderedText("Emperor: You are probably wondering why I invited", { 0, 0, 0 }, textFont))
+    {
+        std::cout << TTF_GetError() << "\n";
+    }
+    if (!textBoxtext2.loadFromRenderedText("you to my splendid palace! Unfortunately, my", { 0, 0, 0 }, textFont))
+    {
+        std::cout << TTF_GetError() << "\n";
+    }
+    if (!textBoxtext3.loadFromRenderedText("daughter has been kidnapped!", { 0, 0, 0 }, textFont))
+    {
+        std::cout << TTF_GetError() << "\n";
+    }
+}
+
+void changeDialogStage1()
+{  
+    int i;
+    for (i = 0; i <= 3 && !dia[i]; ++i);
+
+    if (i <= 3)
+    {
+        dia[i] = false; //a volt dialogus false - > torlodik
+        dia[i + 1] = true;  //bejon az ujabb dialogus, amit most ezutan be load-olunks
+        if (i + 1 == 1) //i + 1 a kovetkezo dia sorszama
+        {
+            if (!textBoxtext1.loadFromRenderedText("You: This is the fifth time this year...", { 0, 0, 0 }, textFont))
+            {
+                std::cout << TTF_GetError() << "\n";
+            }
+            textTransition1 = { 0, 0, 0, 15 };
+        }
+        else if (i + 1 == 2)
+        {
+            if (!textBoxtext1.loadFromRenderedText("Emperor: Therefore, I kindly please you to", { 0, 0, 0 }, textFont))
+            {
+                std::cout << TTF_GetError() << "\n";
+            }
+            if (!textBoxtext2.loadFromRenderedText("help her.", { 0, 0, 0 }, textFont))
+            {
+                std::cout << TTF_GetError() << "\n";
+            }
+            textTransition1 = { 0, 0, 0, 15 };
+            textTransition2 = { 0, 0, 0, 15 };
+        }
+        else if (i + 1 == 3)
+        {
+            if (!textBoxtext1.loadFromRenderedText("You: Where is she?", { 0, 0, 0 }, textFont))
+            {
+                std::cout << TTF_GetError() << "\n";
+            }
+            textTransition1 = { 0, 0, 0, 15 };
+        }
+        else if (i + 1 == 4)
+        {
+            if (!textBoxtext1.loadFromRenderedText("Empereror: Gossips say she is in", { 0, 0, 0 }, textFont))
+            {
+                std::cout << TTF_GetError() << "\n";
+            }
+            if (!textBoxtext2.loadFromRenderedText("the dangerous Magic Mine!", { 0, 0, 0 }, textFont))
+            {
+                std::cout << TTF_GetError() << "\n";
+            }
+            if (!textBoxtext3.loadFromRenderedText("So, do you accept the mission? (y/n)", { 255, 255, 255 }, textFont))
+            {
+                std::cout << TTF_GetError() << "\n";
+            }
+            textTransition1 = { 0, 0, 0, 15 };
+            textTransition2 = { 0, 0, 0, 15 };
+            textTransition3 = { 0, 0, 0, 15 };
+        }
+
+
+
+    }
+    /*else  ->mivel a vegen mindig kell donteni, ide ez nem tehetjuk 
+    {
+        b_stage1 = false;
+        b_stage2 = true;
+    }*/
+
+}
+
+//ez a fekete transition eleinte felteszi az atlatszosagot 255 (full fekete);
+//utana a main-ben fokozatosan csokkentsuk ez (egyre atlatszobb lesz) -> az illuzioja, hagy van atmenet
