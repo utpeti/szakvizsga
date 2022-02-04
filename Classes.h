@@ -17,6 +17,11 @@ extern const int BUTTON_HEIGHT;
 extern SDL_Window* Window;
 extern SDL_Renderer* Renderer;
 extern bool b_stage1, b_mainMenu;
+extern bool dia[10];
+extern Uint8 darkness;
+extern TTF_Font* menuFont;
+extern void loadTextsStage1();
+
 
 enum ButtonFunction : Uint8
 {
@@ -36,9 +41,15 @@ public:
 
 	bool loadFromFile(std::string path);
 
+	bool loadFromRenderedText(std::string textureText, SDL_Color textColor, TTF_Font* Font);
+
 	void render(int x, int y, SDL_Rect* clip, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
 	void setAlpha(Uint8 alpha);
+
+	int getWidth();
+
+	int getHeight();
 
 protected:
 
@@ -123,6 +134,33 @@ bool LImage::loadFromFile(std::string path)
 	return true;
 }
 
+bool LImage::loadFromRenderedText(std::string textureText, SDL_Color textColor, TTF_Font* Font)
+{
+	//delete preexisting texture
+	free();
+
+	//SDL_Surface* textSurface = TTF_RenderUTF8_Solid(Font, textureText.c_str(), textColor);
+	SDL_Surface* textSurface = TTF_RenderText_Blended_Wrapped(Font, textureText.c_str(), textColor, 1280);
+	if (textSurface == NULL)
+	{
+		std::cout << TTF_GetError() << "\n";
+		return false;
+	}
+	mTexture = SDL_CreateTextureFromSurface(Renderer, textSurface);
+	if (mTexture == NULL)
+	{
+		std::cout << SDL_GetError() << "\n";
+		return false;
+	}
+
+	mWidth = textSurface->w;
+	mHeight = textSurface->h;
+
+	SDL_FreeSurface(textSurface);
+	
+	return true;
+}
+
 void LImage::render(int x, int y, SDL_Rect* clip, SDL_RendererFlip flip)
 {
 
@@ -140,6 +178,16 @@ void LImage::render(int x, int y, SDL_Rect* clip, SDL_RendererFlip flip)
 void LImage::setAlpha(Uint8 alpha)
 {
 	SDL_SetTextureAlphaMod(mTexture, alpha);//set the opacity of the texture from 0 to 255
+}
+
+int LImage::getWidth()
+{
+	return mWidth;
+}
+
+int LImage::getHeight()
+{
+	return mHeight;
 }
 
 LButtonPosition::LButtonPosition()
@@ -193,6 +241,7 @@ void LButtonPosition::HandleEvent(SDL_Event* e)
 			if (e->type == SDL_MOUSEBUTTONDOWN)
 			{
 				buttonEvent();
+				
 			}
 		}
 
@@ -203,8 +252,14 @@ void LButtonPosition::buttonEvent()
 {
 	if (index == BUTTONSTART)
 	{
+		darkness = 255; //teljesen fekete lesz a kepernyo -> transition
 		b_mainMenu = false;
 		b_stage1 = true;
+		for (int i = 0; i < 5; ++i)//ne toltse be meg a dialogokat csak az elsot
+			dia[i] = false;
+		dia[0] = true; //az elso dialogot mar toltheti is be
+		///loading in stage1's textBoxtexts;
+		loadTextsStage1();
 	}
 }
 
