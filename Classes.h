@@ -1,43 +1,59 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include "../SDL2/include/SDL.h"
-#include "../SDL2/SDL2_Image/include/SDL_image.h"
-#include "../SDL2/SDL2_mixer/include/SDL_mixer.h"
-#include "../SDL2/SDL2_ttf/include/SDL_ttf.h"
-/*#include <SDL.h>
+#include "functions.h"
+#include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include <SDL_mixer.h>*/
+#include <SDL_mixer.h>
 
-const int BUTTON_WIDTH = 80;
-const int BUTTON_HEIGHT = 48;
+extern const int BUTTON_WIDTH;
+extern const int BUTTON_HEIGHT;
+extern const int SCREEN_WIDTH;
+extern const int SCREEN_HEIGHT;
 
 extern SDL_Window* Window;
 extern SDL_Renderer* Renderer;
+extern bool b_stage0, b_stage1, b_mainMenu;
+extern bool dia[10];
+extern Uint8 darkness;
+extern TTF_Font* menuFont;
+extern void loadTextsStage1();
+extern int Time();
 
 enum ButtonFunction : Uint8
 {
-	BUTTONSTART = 1,
-	BUTTONEXIT,
+	BUTTONSTART,
 };
 
 
-class LBackground
+class LImage
 {
 public:
 
-	LBackground();
+	LImage();
 
-	~LBackground();
+	~LImage();
 
 	void free();
 
 	bool loadFromFile(std::string path);
 
-	void render(int x, int y, SDL_Rect* clip);
+	bool loadFromRenderedText(std::string textureText, SDL_Color textColor, TTF_Font* Font);
 
-private:
+	void render(int x, int y, SDL_Rect* clip, SDL_RendererFlip flip = SDL_FLIP_NONE);
+
+	void renderanim(int x, int y, SDL_Rect* clip, SDL_RendererFlip flip = SDL_FLIP_NONE);
+
+	void setAlpha(Uint8 alpha);
+
+	int getWidth();
+
+	int getHeight();
+
+	void moveImage(SDL_Rect renderQuad);
+
+protected:
 
 	SDL_Texture* mTexture;
 
@@ -45,50 +61,53 @@ private:
 	int mHeight;
 };
 
-class LButtonPosition
+
+///oroklodes??
+class LButtonPosition : public LImage
 {
 public:
 	LButtonPosition();
 
-	~LButtonPosition();
-
 	void setPosition(int x, int y);
+
+	int getPosx();
+
+	int getPosy();
 
 	void HandleEvent(SDL_Event* e);
 
 	void buttonEvent();
 
-	bool active;
+	int index;
 
 private:
 	SDL_Point LPosition;
-	int index;
 };
 
-LBackground::LBackground()
+LImage::LImage()
 {
 	mTexture = NULL;
 	mWidth = 0;
 	mHeight = 0;
 }
 
-LBackground::~LBackground()
+LImage::~LImage()
 {
 	free();
 }
 
-void LBackground::free()
+void LImage::free()
 {
 	if (mTexture != NULL)
 	{
 		SDL_DestroyTexture(mTexture);
 		mTexture = NULL;
-		mWidth = 0; 
+		mWidth = 0;
 		mHeight = 0;
 	}
 }
 
-bool LBackground::loadFromFile(std::string path)
+bool LImage::loadFromFile(std::string path)
 {
 	//get rid of pre existing texture
 	free();
@@ -98,7 +117,7 @@ bool LBackground::loadFromFile(std::string path)
 	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
 	if (loadedSurface == NULL)
 	{
-		
+
 		return false;
 	}
 
@@ -117,25 +136,77 @@ bool LBackground::loadFromFile(std::string path)
 	return true;
 }
 
-void LBackground::render(int x, int y, SDL_Rect* clip)
+bool LImage::loadFromRenderedText(std::string textureText, SDL_Color textColor, TTF_Font* Font)
+{
+	//delete preexisting texture
+	free();
+
+	//SDL_Surface* textSurface = TTF_RenderUTF8_Solid(Font, textureText.c_str(), textColor);
+	SDL_Surface* textSurface = TTF_RenderText_Blended_Wrapped(Font, textureText.c_str(), textColor, 1280);
+	if (textSurface == NULL)
+	{
+		std::cout << TTF_GetError() << "\n";
+		return false;
+	}
+	mTexture = SDL_CreateTextureFromSurface(Renderer, textSurface);
+	if (mTexture == NULL)
+	{
+		std::cout << SDL_GetError() << "\n";
+		return false;
+	}
+
+	mWidth = textSurface->w;
+	mHeight = textSurface->h;
+
+	SDL_FreeSurface(textSurface);
+
+	return true;
+}
+
+void LImage::render(int x, int y, SDL_Rect* clip, SDL_RendererFlip flip)
 {
 
 	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
-
 	if (clip != NULL)
 	{
 		renderQuad.w = (*clip).w;
 		renderQuad.h = (*clip).h;
-		
 	}
 	SDL_RenderCopy(Renderer, mTexture, clip, &renderQuad);
+}
+
+void LImage::renderanim(int x, int y, SDL_Rect* clip, SDL_RendererFlip flip)
+{
+
+	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
+	if (clip != NULL)
+	{
+		renderQuad.w = (*clip).w;
+		renderQuad.h = (*clip).h;
+	}
+	renderQuad.x = Time() * 8 / SCREEN_WIDTH;
+	SDL_RenderCopy(Renderer, mTexture, clip, &renderQuad);
+}
+
+void LImage::setAlpha(Uint8 alpha)
+{
+	SDL_SetTextureAlphaMod(mTexture, alpha);//set the opacity of the texture from 0 to 255
+}
+
+int LImage::getWidth()
+{
+	return mWidth;
+}
+
+int LImage::getHeight()
+{
+	return mHeight;
 }
 
 LButtonPosition::LButtonPosition()
 {
 	LPosition.x = LPosition.y = 0;
 	index = 0;
-	active = false;
 }
 
 void LButtonPosition::setPosition(int x, int y)
@@ -177,12 +248,13 @@ void LButtonPosition::HandleEvent(SDL_Event* e)
 		{
 			inside = false;
 		}
-		
+
 		if (inside)
 		{
 			if (e->type == SDL_MOUSEBUTTONDOWN)
 			{
 				buttonEvent();
+
 			}
 		}
 
@@ -193,10 +265,23 @@ void LButtonPosition::buttonEvent()
 {
 	if (index == BUTTONSTART)
 	{
-		stage1();
+		darkness = 255; //teljesen fekete lesz a kepernyo -> transition
+		b_mainMenu = false;
+		b_stage0 = true;
+		for (int i = 0; i < 5; ++i)//ne toltse be meg a dialogokat csak az elsot
+			dia[i] = false;
+		dia[0] = true; //az elso dialogot mar toltheti is be
+		///loading in stage1's textBoxtexts;
+		loadTextsStage1();
 	}
-	else if (index == BUTTONEXIT)
-	{
+}
 
-	}
+int LButtonPosition::getPosx()
+{
+	return LPosition.x;
+}
+
+int LButtonPosition::getPosy()
+{
+	return LPosition.y;
 }
