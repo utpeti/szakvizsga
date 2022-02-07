@@ -51,7 +51,7 @@ public:
 
 	int getHeight();
 
-	void moveImage(SDL_Rect renderQuad);
+	//void moveImage(SDL_Rect renderQuad);
 
 protected:
 
@@ -184,7 +184,7 @@ void LImage::renderanim(int x, int y, SDL_Rect* clip, SDL_RendererFlip flip)
 		renderQuad.w = (*clip).w;
 		renderQuad.h = (*clip).h;
 	}
-	renderQuad.x = Time() * 8 / SCREEN_WIDTH;
+	renderQuad.x = Time() * 8 / SCREEN_WIDTH; //8-at modositani is lehet illetve adj egy hatart a koordinatanak
 	SDL_RenderCopy(Renderer, mTexture, clip, &renderQuad);
 }
 
