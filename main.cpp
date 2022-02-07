@@ -17,7 +17,7 @@ const int SPEED = 5;
 extern SDL_Window* Window;
 extern SDL_Renderer* Renderer;
 extern LButtonPosition buttons[5];
-extern bool b_mainMenu, b_stage1, b_stage2, dia[10];
+extern bool b_mainMenu, b_stage0, b_stage1, b_stage2, dia[10];
 
 int main()
 {
