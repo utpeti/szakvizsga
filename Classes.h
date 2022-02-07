@@ -175,7 +175,7 @@ void LImage::render(int x, int y, SDL_Rect* clip, SDL_RendererFlip flip)
 	SDL_RenderCopy(Renderer, mTexture, clip, &renderQuad);
 }
 
-void LImage::renderanim(int x, int y, SDL_Rect* clip, SDL_RendererFlip flip)
+void LImage::renderAnimation(int x, int y, SDL_Rect* clip, SDL_RendererFlip flip)
 {
 
 	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
