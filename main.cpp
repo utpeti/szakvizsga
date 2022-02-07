@@ -76,7 +76,7 @@ int main()
 					}
 
 					//textures
-					kastely.renderanim(0, 0, NULL);
+					kastely.renderAnimation(0, 0, NULL);
 					blackTrans.render(0, 0, NULL);
 					textBox.render(0, 0, NULL);
 					
