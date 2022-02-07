@@ -51,8 +51,6 @@ public:
 
 	int getHeight();
 
-	//void moveImage(SDL_Rect renderQuad);
-
 protected:
 
 	SDL_Texture* mTexture;
@@ -62,7 +60,7 @@ protected:
 };
 
 
-///oroklodes??
+
 class LButtonPosition : public LImage
 {
 public:
@@ -167,6 +165,7 @@ void LImage::render(int x, int y, SDL_Rect* clip, SDL_RendererFlip flip)
 {
 
 	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
+	
 	if (clip != NULL)
 	{
 		renderQuad.w = (*clip).w;
