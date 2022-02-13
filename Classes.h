@@ -48,7 +48,7 @@ public:
 
 	void render(int x, int y, SDL_Rect* clip, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
-	void renderanim(int x, int y, SDL_Rect* clip, SDL_RendererFlip flip = SDL_FLIP_NONE);
+	void renderAnimation(int x, int y, SDL_Rect* clip, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
 	void setAlpha(Uint8 alpha);
 
