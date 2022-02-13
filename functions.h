@@ -23,7 +23,7 @@ const int MAX_BUTTONS = 2;
 SDL_Window* Window = NULL;
 SDL_Renderer* Renderer = NULL;
 
-LImage mainMenu, blackTrans, kastely, kastely_belso, elag, banya, banyaelag;
+LImage mainMenu, blackTrans, kastely, kastely_belso, hid;
 LImage textBox;
 LImage textBoxtext1, textBoxtext2, textBoxtext3, textBoxtext4, textBoxtext5, textBoxtext6, textBoxtext7;
 LImage mainMenuText;
@@ -40,10 +40,15 @@ SDL_Rect textTransition1 = { 0, 0, 0, 15 };
 SDL_Rect textTransition2 = { 0, 0, 0, 15 };
 SDL_Rect textTransition3 = { 0, 0, 0, 15 };
 SDL_Rect textTransition4 = { 0, 0, 0, 15 };
+SDL_Rect textTransition5 = { 0, 0, 0, 15 };
+SDL_Rect textTransition6 = { 0, 0, 0, 15 };
 
-bool b_mainMenu, b_stage1, b_stage2;
+
+bool b_mainMenu, b_stage0, b_stage1, b_stage2, b_stage3;
+bool b_felakasztas;
 bool dia[10];
-Uint8 darkness = 255;
+Uint8 darkness;
+int startTime;
 
 bool init()
 {
@@ -96,6 +101,8 @@ bool init()
         return false;
     }
 
+    startTime = SDL_GetTicks();
+
     return true;
    
 }
@@ -103,7 +110,7 @@ bool init()
 bool loadMedia()
 {
     ///TTF fonts///
-    menuFont = TTF_OpenFont("prstart.ttf", 100);
+    menuFont = TTF_OpenFont("prstart.ttf", 90);
     if (menuFont == NULL)
     {
         std::cout << TTF_GetError() << "\n";
@@ -143,9 +150,14 @@ bool loadMedia()
         std::cout << IMG_GetError() << "\n";
         return false;
     }
+    if (!hid.loadFromFile("Images/goblin_hid.png"))
+    {
+        std::cout << IMG_GetError() << "\n";
+        return false;
+    }
     ///Texts///
     SDL_Color textColor = {0, 0, 0};
-    if (!mainMenuText.loadFromRenderedText("Sex The Game", textColor, menuFont))
+    if (!mainMenuText.loadFromRenderedText("Save The Girl", textColor, menuFont))
     {
         std::cout << TTF_GetError() << "\n";
         return false;
@@ -176,20 +188,88 @@ bool loadMedia()
     return true;
 }
 
-void loadTextsStage1() //loads initial texts
+void loadTextsStage0()
 {
-    if (!textBoxtext1.loadFromRenderedText("Emperor: You are probably wondering why I invited", { 0, 0, 0 }, textFont))
+    if (!textBoxtext1.loadFromRenderedText("Once upon a time there was a well known", { 200, 200, 200 }, textFont))
     {
         std::cout << TTF_GetError() << "\n";
     }
-    if (!textBoxtext2.loadFromRenderedText("you to my splendid palace! Unfortunately, my", { 0, 0, 0 }, textFont))
+    if (!textBoxtext2.loadFromRenderedText("adventurer, you. You lived in the strong Assyrian", { 200, 200, 200 }, textFont))
     {
         std::cout << TTF_GetError() << "\n";
     }
-    if (!textBoxtext3.loadFromRenderedText("daughter has been kidnapped!", { 0, 0, 0 }, textFont))
+    if (!textBoxtext3.loadFromRenderedText("Empire along with your comrades whom you knew", { 200, 200, 200 }, textFont))
     {
         std::cout << TTF_GetError() << "\n";
     }
+    if (!textBoxtext4.loadFromRenderedText("very well, and vice versa.The same goes for the", { 200, 200, 200 }, textFont))
+    {
+        std::cout << TTF_GetError() << "\n";
+    }
+    if (!textBoxtext5.loadFromRenderedText("walls, for every mouse hole, for every pub, for", { 200, 200, 200 }, textFont))
+    {
+        std::cout << TTF_GetError() << "\n";
+    }
+    if (!textBoxtext5.loadFromRenderedText("for every hideout. Neither was the king an", { 200, 200, 200 }, textFont))
+    {
+        std::cout << TTF_GetError() << "\n";
+    }
+    if (!textBoxtext6.loadFromRenderedText("exception.", { 200, 200, 200 }, textFont))
+    {
+        std::cout << TTF_GetError() << "\n";
+    }
+    textTransition1 = { 0, 0, 0, 15 };
+    textTransition2 = { 0, 0, 0, 15 };
+    textTransition3 = { 0, 0, 0, 15 };
+    textTransition4 = { 0, 0, 0, 15 };
+    textTransition5 = { 0, 0, 0, 15 };
+    textTransition6 = { 0, 0, 0, 15 };
+}
+
+void changeDialogStage0()
+{
+    dia[0] = false;
+    dia[1] = true;
+    if(!textBoxtext1.loadFromRenderedText("He has entrusted you with a bunch of missions", { 200, 200, 200 }, textFont))
+    {
+        std::cout << TTF_GetError() << "\n";
+    }
+    if (!textBoxtext2.loadFromRenderedText("throughout the years which you completed without", { 200, 200, 200 }, textFont))
+    {
+        std::cout << TTF_GetError() << "\n";
+    }
+    if (!textBoxtext3.loadFromRenderedText("any problems.", { 200, 200, 200 }, textFont))
+    {
+        std::cout << TTF_GetError() << "\n";
+    }
+    if (!textBoxtext4.loadFromRenderedText("One day the emperor called you in...", { 255, 255, 255 }, textFont))
+    {
+        std::cout << TTF_GetError() << "\n";
+    }
+    textTransition1 = { 0, 0, 0, 15 };
+    textTransition2 = { 0, 0, 0, 15 };
+    textTransition3 = { 0, 0, 0, 15 };
+    textTransition4 = { 0, 0, 0, 15 };
+}
+
+void loadTextsStage1() //loads initial texts and sets other stuff
+{
+    if (!textBoxtext1.loadFromRenderedText("EMPEROR: You are probably wondering why I invited", { 158, 158, 158 }, textFont))
+    {
+        std::cout << TTF_GetError() << "\n";
+    }
+    if (!textBoxtext2.loadFromRenderedText("you to my splendid palace! Unfortunately, my", { 158, 158, 158 }, textFont))
+    {
+        std::cout << TTF_GetError() << "\n";
+    }
+    if (!textBoxtext3.loadFromRenderedText("daughter has been kidnapped!", { 158, 158, 158 }, textFont))
+    {
+        std::cout << TTF_GetError() << "\n";
+    }
+    textTransition1 = { 0, 0, 0, 15 };
+    textTransition2 = { 0, 0, 0, 15 };
+    textTransition3 = { 0, 0, 0, 15 };
+
 }
 
 void changeDialogStage1()
@@ -203,7 +283,7 @@ void changeDialogStage1()
         dia[i + 1] = true;  //bejon az ujabb dialogus, amit most ezutan be load-olunks
         if (i + 1 == 1) //i + 1 a kovetkezo dia sorszama
         {
-            if (!textBoxtext1.loadFromRenderedText("You: This is the fifth time this year...", { 0, 0, 0 }, textFont))
+            if (!textBoxtext1.loadFromRenderedText("YOU: This is the fifth time this year...", { 158, 158, 158 }, textFont))
             {
                 std::cout << TTF_GetError() << "\n";
             }
@@ -211,11 +291,11 @@ void changeDialogStage1()
         }
         else if (i + 1 == 2)
         {
-            if (!textBoxtext1.loadFromRenderedText("Emperor: Therefore, I kindly please you to", { 0, 0, 0 }, textFont))
+            if (!textBoxtext1.loadFromRenderedText("EMPEROR: Therefore, I kindly ask you to", { 158, 158, 158 }, textFont))
             {
                 std::cout << TTF_GetError() << "\n";
             }
-            if (!textBoxtext2.loadFromRenderedText("help her.", { 0, 0, 0 }, textFont))
+            if (!textBoxtext2.loadFromRenderedText("help her.", { 158, 158, 158 }, textFont))
             {
                 std::cout << TTF_GetError() << "\n";
             }
@@ -224,7 +304,7 @@ void changeDialogStage1()
         }
         else if (i + 1 == 3)
         {
-            if (!textBoxtext1.loadFromRenderedText("You: Where is she?", { 0, 0, 0 }, textFont))
+            if (!textBoxtext1.loadFromRenderedText("YOU: Where is she?", { 158, 158, 158 }, textFont))
             {
                 std::cout << TTF_GetError() << "\n";
             }
@@ -232,11 +312,11 @@ void changeDialogStage1()
         }
         else if (i + 1 == 4)
         {
-            if (!textBoxtext1.loadFromRenderedText("Empereror: Gossips say she is in", { 0, 0, 0 }, textFont))
+            if (!textBoxtext1.loadFromRenderedText("EMPEROR: Gossips say she is in the dangerous", { 158, 158, 158 }, textFont))
             {
                 std::cout << TTF_GetError() << "\n";
             }
-            if (!textBoxtext2.loadFromRenderedText("the dangerous Magic Mine!", { 0, 0, 0 }, textFont))
+            if (!textBoxtext2.loadFromRenderedText("Magic Mine!", { 158, 158, 158 }, textFont))
             {
                 std::cout << TTF_GetError() << "\n";
             }
@@ -248,16 +328,90 @@ void changeDialogStage1()
             textTransition2 = { 0, 0, 0, 15 };
             textTransition3 = { 0, 0, 0, 15 };
         }
-
-
-
     }
-    /*else  ->mivel a vegen mindig kell donteni, ide ez nem tehetjuk 
-    {
-        b_stage1 = false;
-        b_stage2 = true;
-    }*/
+}
 
+void loadTextsStage2()
+{
+    if (!textBoxtext1.loadFromRenderedText("On your way, you have met with your", { 255, 255, 255 }, textFont))
+    {
+        std::cout << TTF_GetError() << "\n";
+    }
+    if (!textBoxtext2.loadFromRenderedText("old friend, Gibbon the goblin...", { 255, 255, 255 }, textFont))
+    {
+        std::cout << TTF_GetError() << "\n";
+    }
+    textTransition1 = { 0, 0, 0, 15 };
+    textTransition2 = { 0, 0, 0, 15 };
+}
+
+
+void changeDialogStage2()
+{
+    int i;
+    for (i = 0; i <= 3 && !dia[i]; ++i);
+
+    dia[i] = false;
+    dia[i + 1] = true;
+    if (i + 1 == 1)
+    {
+        if (!textBoxtext1.loadFromRenderedText("GIBBON: So we meet again! You already know my", { 200, 200, 200 }, textFont))
+        {
+            std::cout << TTF_GetError() << "\n";
+        }
+        if (!textBoxtext2.loadFromRenderedText("conditions: either you pay to cross this bridge", { 200, 200, 200 }, textFont))
+        {
+            std::cout << TTF_GetError() << "\n";
+        }
+        if (!textBoxtext3.loadFromRenderedText("or you die!", { 200, 200, 200 }, textFont))
+        {
+            std::cout << TTF_GetError() << "\n";
+        }
+        textTransition1 = { 0, 0, 0, 15 };
+        textTransition2 = { 0, 0, 0, 15 };
+        textTransition3 = { 0, 0, 0, 15 };
+    }
+    else if (i + 1 == 2)
+    {
+        if (!textBoxtext1.loadFromRenderedText("YOU: Weren't you under the the Emperor's ", { 200, 200, 200 }, textFont))
+        {
+            std::cout << TTF_GetError() << "\n";
+        }
+        if (!textBoxtext2.loadFromRenderedText("protection, I would have killed you 10 times ", { 200, 200, 200 }, textFont))
+        {
+            std::cout << TTF_GetError() << "\n";
+        }
+        if (!textBoxtext3.loadFromRenderedText("already!", { 200, 200, 200 }, textFont))
+        {
+            std::cout << TTF_GetError() << "\n";
+        }
+        textTransition1 = { 0, 0, 0, 15 };
+        textTransition2 = { 0, 0, 0, 15 };
+        textTransition3 = { 0, 0, 0, 15 };
+    }
+    else if (i + 1 == 3)
+    {
+        if (!textBoxtext1.loadFromRenderedText("GIBBON: So what is your next move? (1/2)", { 255, 255, 255 }, textFont))
+        {
+            std::cout << TTF_GetError() << "\n";
+        }
+        if (!textBoxtext2.loadFromRenderedText("1. Don't pay and try to escape.", { 255, 255, 255 }, textFont))
+        {
+            std::cout << TTF_GetError() << "\n";
+        }
+        if (!textBoxtext3.loadFromRenderedText("2. Pay.", { 255, 255, 255 }, textFont))
+        {
+            std::cout << TTF_GetError() << "\n";
+        }
+        textTransition1 = { 0, 0, 0, 15 };
+        textTransition2 = { 0, 0, 0, 15 };
+        textTransition3 = { 0, 0, 0, 15 };
+    }
+}
+
+int Time()
+{
+    return  startTime - SDL_GetTicks();
 }
 
 //ez a fekete transition eleinte felteszi az atlatszosagot 255 (full fekete);
