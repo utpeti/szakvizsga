@@ -17,7 +17,7 @@ const int SPEED = 5;
 extern SDL_Window* Window;
 extern SDL_Renderer* Renderer;
 extern LButtonPosition buttons[5];
-extern bool b_mainMenu, b_stage1, b_stage2, dia[10];
+extern bool b_mainMenu, b_stage0, b_stage1, b_stage2, b_stage3, dia[10], b_felakasztas;
 
 
 int main()
@@ -44,11 +44,73 @@ int main()
 					{
 						buttons[0].HandleEvent(&e);
 					}
-					if (b_stage1)
+					else if (b_stage0)
 					{
 						if (e.type == SDL_KEYDOWN)
 						{
-							changeDialogStage1();
+							if(!dia[1])
+								changeDialogStage0();
+							else
+							{
+								b_stage0 = false;
+								b_stage1 = true;
+								for (int i = 0; i < 6; ++i)
+									dia[i] = false;
+								dia[0] = true;
+								darkness = 255;
+								loadTextsStage1();
+							}
+						}
+					}
+					else if (b_stage1)
+					{
+						if (e.type == SDL_KEYDOWN)
+						{
+							if (!dia[4]) //ha ez mar true, akkor meg volt az osszes parbeszedresz
+								changeDialogStage1();
+							else
+							{
+								if (e.key.keysym.sym == SDLK_y)
+								{
+									b_stage1 = false;
+									b_stage2 = true;
+									for (int i = 0; i < 6; ++i)
+										dia[i] = false;
+									dia[0] = true;
+									darkness = 255;
+									loadTextsStage2();
+								}
+								else if (e.key.keysym.sym == SDLK_n)
+								{
+
+								}
+							}
+						}
+						
+					}
+					else if (b_stage2)
+					{
+						if (e.type == SDL_KEYDOWN)
+						{
+							if (!dia[3])
+								changeDialogStage2();
+							else
+							{
+								if (e.key.keysym.sym == SDLK_1)
+								{
+									
+								}
+								else if (e.key.keysym.sym == SDLK_2)
+								{
+									b_stage2 = false;
+									b_stage3 = true;
+									for (int i = 0; i < 6; ++i)
+										dia[i] = false;
+									dia[0] = true;
+									darkness = 255;
+									//loadTextsStage3();
+								}
+							}
 						}
 						
 					}
@@ -67,6 +129,67 @@ int main()
 					buttons[0].render(buttons[0].getPosx(), buttons[0].getPosy(), NULL);
 					mainMenuText.render(SCREEN_WIDTH / 2 - mainMenuText.getWidth() / 2, 0, NULL);
 				}
+				else if (b_stage0)
+				{
+					//transition
+					if (darkness > 0)
+					{
+						darkness -= SPEED;
+						blackTrans.setAlpha(darkness);
+					}
+
+					//textures
+					kastely.renderAnimation(0, 0, NULL);
+					blackTrans.render(0, 0, NULL);
+					textBox.render(0, 0, NULL);
+					
+					///text transition///
+					if (dia[0])
+					{
+						if (textTransition1.w < textBoxtext1.getWidth())
+							textTransition1.w += SPEED;
+						else if (textTransition2.w < textBoxtext2.getWidth())
+							textTransition2.w += SPEED;
+						else if (textTransition3.w < textBoxtext3.getWidth())
+							textTransition3.w += SPEED;
+						else if (textTransition4.w < textBoxtext4.getWidth())
+							textTransition4.w += SPEED;
+						else if (textTransition5.w < textBoxtext5.getWidth())
+							textTransition5.w += SPEED;
+						else if (textTransition6.w < textBoxtext6.getWidth())
+							textTransition6.w += SPEED;
+					}
+					else if (dia[1])
+					{
+						if (textTransition1.w < textBoxtext1.getWidth())
+							textTransition1.w += SPEED;
+						else if (textTransition2.w < textBoxtext2.getWidth())
+							textTransition2.w += SPEED;
+						else if (textTransition3.w < textBoxtext3.getWidth())
+							textTransition3.w += SPEED;
+						else if (textTransition4.w < textBoxtext4.getWidth())
+							textTransition4.w += SPEED;
+					}
+
+					///text rendering///
+					if (dia[0])
+					{
+						textBoxtext1.render(300, 530, &textTransition1);
+						textBoxtext2.render(300, 550, &textTransition2);
+						textBoxtext3.render(300, 570, &textTransition3);
+						textBoxtext4.render(300, 590, &textTransition4);
+						textBoxtext5.render(300, 610, &textTransition5);
+						textBoxtext6.render(300, 630, &textTransition6);
+					}
+					else if (dia[1])
+					{
+						textBoxtext1.render(300, 530, &textTransition1);
+						textBoxtext2.render(300, 550, &textTransition2);
+						textBoxtext3.render(300, 570, &textTransition3);
+						textBoxtext4.render(300, 590, &textTransition4);
+					}
+
+				}
 				else if (b_stage1)
 				{
 					//transition
@@ -81,8 +204,7 @@ int main()
 					textBox.render(0, 0, NULL);
 					blackTrans.render(0, 0, NULL);
 
-					//text
-					//transition
+					//*text transition*//
 					if (dia[0])
 					{
 						if (textTransition1.w < textBoxtext1.getWidth())
@@ -121,12 +243,12 @@ int main()
 							textTransition3.w += SPEED;
 					}
 					
-					//text rendering
+					//*text rendering*//
 					if (dia[0])
 					{
 						textBoxtext1.render(300, 530, &textTransition1);
-						textBoxtext2.render(300, 545, &textTransition2);
-						textBoxtext3.render(300, 560, &textTransition3);
+						textBoxtext2.render(300, 550, &textTransition2);
+						textBoxtext3.render(300, 570, &textTransition3);
 					}
 					else if (dia[1])
 					{
@@ -135,7 +257,7 @@ int main()
 					else if (dia[2])
 					{
 						textBoxtext1.render(300, 530, &textTransition1);
-						textBoxtext2.render(300, 545, &textTransition2);
+						textBoxtext2.render(300, 550, &textTransition2);
 					}
 					else if (dia[3])
 					{
@@ -144,12 +266,87 @@ int main()
 					else if (dia[4])
 					{
 						textBoxtext1.render(300, 530, &textTransition1);
-						textBoxtext2.render(300, 545, &textTransition2);
-						textBoxtext3.render(300, 560, &textTransition3);
+						textBoxtext2.render(300, 550, &textTransition2);
+						textBoxtext3.render(300, 570, &textTransition3);
 					}
 					
 				}
-				//else if
+				else if (b_stage2)
+				{
+					if (darkness > 0)
+					{
+						darkness -= SPEED;
+						blackTrans.setAlpha(darkness);
+					}
+
+					//textures//
+					hid.render(0, 0, NULL);
+					textBox.render(0, 0, NULL);
+					blackTrans.render(0, 0, NULL);
+
+
+					//*text transition*//
+					if (dia[0])
+					{
+						if (textTransition1.w < textBoxtext1.getWidth())
+							textTransition1.w += SPEED;
+						else if (textTransition2.w < textBoxtext2.getWidth())
+							textTransition2.w += SPEED;
+					}
+					else if (dia[1])
+					{
+						if (textTransition1.w < textBoxtext1.getWidth())
+							textTransition1.w += SPEED;
+						else if (textTransition2.w < textBoxtext2.getWidth())
+							textTransition2.w += SPEED;
+						else if (textTransition3.w < textBoxtext3.getWidth())
+							textTransition3.w += SPEED;
+					}
+					else if (dia[2])
+					{
+						if (textTransition1.w < textBoxtext1.getWidth())
+							textTransition1.w += SPEED;
+						else if (textTransition2.w < textBoxtext2.getWidth())
+							textTransition2.w += SPEED;
+						else if (textTransition3.w < textBoxtext3.getWidth())
+							textTransition3.w += SPEED;
+					}
+					else if (dia[3])
+					{
+						if (textTransition1.w < textBoxtext1.getWidth())
+							textTransition1.w += SPEED;
+						else if (textTransition2.w < textBoxtext2.getWidth())
+							textTransition2.w += SPEED;
+						else if (textTransition3.w < textBoxtext3.getWidth())
+							textTransition3.w += SPEED;
+					}
+					//*text rendering*//
+					if (dia[0])
+					{
+						textBoxtext1.render(300, 530, &textTransition1);
+						textBoxtext2.render(300, 550, &textTransition2);
+						
+					}
+					else if (dia[1])
+					{
+						textBoxtext1.render(300, 530, &textTransition1);
+						textBoxtext2.render(300, 550, &textTransition2);
+						textBoxtext3.render(300, 570, &textTransition3);
+					}
+					else if (dia[2])
+					{
+						textBoxtext1.render(300, 530, &textTransition1);
+						textBoxtext2.render(300, 550, &textTransition2);
+						textBoxtext3.render(300, 570, &textTransition3);
+					}
+					else if (dia[3])
+					{
+						textBoxtext1.render(300, 530, &textTransition1);
+						textBoxtext2.render(300, 560, &textTransition2);
+						textBoxtext3.render(300, 590, &textTransition3);
+					}
+
+				}
 
 				
 				SDL_RenderPresent(Renderer);
