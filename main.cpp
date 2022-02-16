@@ -17,7 +17,7 @@ const int SPEED = 5;
 extern SDL_Window* Window;
 extern SDL_Renderer* Renderer;
 extern LButtonPosition buttons[5];
-extern bool b_mainMenu, b_stage0, b_stage1, b_stage2, b_stage3, dia[10], b_felakasztas;
+extern bool b_mainMenu, b_stage0, b_stage1, b_stage2, b_stage3, dia[10], b_stage_akasztas;
 
 
 int main()
@@ -82,7 +82,13 @@ int main()
 								}
 								else if (e.key.keysym.sym == SDLK_n)
 								{
-
+									b_stage1 = false;
+									b_stage_akasztas = true;
+									for (int i = 0; i < 6; ++i)
+										dia[i] = false;
+									dia[0] = true;
+									darkness = 255;
+									loadTextStage_akasztas();
 								}
 							}
 						}
@@ -108,11 +114,27 @@ int main()
 										dia[i] = false;
 									dia[0] = true;
 									darkness = 255;
-									//loadTextsStage3();
+									loadTextsStage3();
 								}
 							}
 						}
 						
+					}
+					else if (b_stage3)
+					{
+						if (e.type == SDL_KEYDOWN)
+						{
+							changeDialogStage3();
+						}
+					}
+					else if (b_stage_akasztas)
+					{
+						if (e.type == SDL_KEYDOWN)
+						{
+							b_stage_akasztas = false;
+							b_mainMenu = true;
+							darkness = 255;
+						}
 					}
 
 				}
@@ -346,6 +368,113 @@ int main()
 						textBoxtext3.render(300, 590, &textTransition3);
 					}
 
+				}
+				else if (b_stage3)
+				{
+					if (darkness > 0)
+					{
+						darkness -= SPEED;
+						blackTrans.setAlpha(darkness);
+					}
+					
+					textBox.render(0, 0, NULL);
+					blackTrans.render(0, 0, NULL);
+
+					//*text transition*//
+					if (dia[0])
+					{
+						if (textTransition1.w < textBoxtext1.getWidth())
+							textTransition1.w += SPEED;
+						else if (textTransition2.w < textBoxtext2.getWidth())
+							textTransition2.w += SPEED;
+					}
+					else if (dia[1])
+					{
+						if (textTransition1.w < textBoxtext1.getWidth())
+							textTransition1.w += SPEED;
+						else if (textTransition2.w < textBoxtext2.getWidth())
+							textTransition2.w += SPEED;
+					}
+					else if (dia[2])
+					{
+						if (textTransition1.w < textBoxtext1.getWidth())
+							textTransition1.w += SPEED;
+						else if (textTransition2.w < textBoxtext2.getWidth())
+							textTransition2.w += SPEED;
+					}
+					else if (dia[3])
+					{
+						if (textTransition1.w < textBoxtext1.getWidth())
+							textTransition1.w += SPEED;
+						else if (textTransition2.w < textBoxtext2.getWidth())
+							textTransition2.w += SPEED;
+						else if (textTransition3.w < textBoxtext3.getWidth())
+							textTransition3.w += SPEED;
+						else if (textTransition4.w < textBoxtext4.getWidth())
+							textTransition4.w += SPEED;
+						else if (textTransition5.w < textBoxtext5.getWidth())
+							textTransition5.w += SPEED;
+						else if (textTransition6.w < textBoxtext6.getWidth())
+							textTransition6.w += SPEED;
+					}
+
+
+					//*text rendering*//
+					if (dia[0])
+					{
+						textBoxtext1.render(300, 530, &textTransition1);
+						textBoxtext2.render(300, 550, &textTransition2);
+					}
+					else if (dia[1])
+					{
+						textBoxtext1.render(300, 530, &textTransition1);
+						textBoxtext2.render(300, 550, &textTransition2);
+					}
+					else if (dia[2])
+					{
+						textBoxtext1.render(300, 530, &textTransition1);
+						textBoxtext2.render(300, 550, &textTransition2);
+					}
+					else if (dia[3])
+					{
+						textBoxtext1.render(300, 530, &textTransition1);
+						textBoxtext2.render(300, 550, &textTransition2);
+						textBoxtext3.render(300, 580, &textTransition3);
+						textBoxtext4.render(300, 610, &textTransition4);
+						textBoxtext5.render(300, 630, &textTransition5);
+						textBoxtext6.render(300, 650, &textTransition6);
+					}
+
+				}
+				else if (b_stage_akasztas)
+				{
+					if (darkness > 0)
+					{
+						darkness -= SPEED;
+						blackTrans.setAlpha(darkness);
+					}
+
+					
+					halalSotet.render(0, 0, NULL);
+					textBox.render(0, 0, NULL);
+					gameOver.render((SCREEN_WIDTH - gameOver.getWidth()) / 2, (SCREEN_HEIGHT - gameOver.getHeight()) / 2, NULL);
+					akasztott.render((SCREEN_WIDTH - akasztott.getWidth()) / 2, (SCREEN_HEIGHT - akasztott.getHeight()) / 2 + 7, NULL);
+					blackTrans.render(0, 0, NULL);
+
+					///text Transition*//
+					if (dia[0])
+					{
+						if (textTransition1.w < textBoxtext1.getWidth())
+							textTransition1.w += SPEED;
+						else if (textTransition2.w < textBoxtext2.getWidth())
+							textTransition2.w += SPEED;
+					}
+
+					if (dia[0])
+					{
+						textBoxtext1.render(300, 530, &textTransition1);
+						textBoxtext2.render(300, 560, &textTransition2);
+					}
 				}
 
 				
