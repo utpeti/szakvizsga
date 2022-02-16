@@ -203,8 +203,18 @@ void LImage::renderAnimation(int x, int y, SDL_Rect* clip, SDL_RendererFlip flip
 		renderQuad.w = (*clip).w;
 		renderQuad.h = (*clip).h;
 	}
-	renderQuad.x = Time() * 8 / SCREEN_WIDTH; //8-at modositani is lehet illetve adj egy hatart a koordinatanak
-	SDL_RenderCopy(Renderer, mTexture, clip, &renderQuad);
+	int xd = Time() * 8 / SCREEN_WIDTH; //8-at modositani is lehet
+	if (xd > -255)
+	{
+		renderQuad.x = xd;
+		SDL_RenderCopy(Renderer, mTexture, clip, &renderQuad);//itt oldd meg, hogy rendereljen tovabb, csak ne mozogjon
+	}
+	else
+	{
+		renderQuad.x = SCREEN_WIDTH - mWidth;
+		SDL_RenderCopy(Renderer, mTexture, clip, &renderQuad);
+	}
+
 }
 
 LButtonPosition::LButtonPosition()
@@ -255,11 +265,16 @@ void LButtonPosition::HandleEvent(SDL_Event* e)
 		
 		if (inside)
 		{
+			SDL_SetTextureColorMod(mTexture, 220, 190, 200);
 			if (e->type == SDL_MOUSEBUTTONDOWN)
 			{
 				buttonEvent();
 				
 			}
+		}
+		else
+		{
+			SDL_SetTextureColorMod(mTexture, 255, 255, 255);
 		}
 
 	}
