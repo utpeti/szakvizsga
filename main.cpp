@@ -17,7 +17,7 @@ const int SPEED = 5;
 extern SDL_Window* Window;
 extern SDL_Renderer* Renderer;
 extern LButtonPosition buttons[5];
-extern bool b_mainMenu, b_stage0, b_stage1, b_stage2, b_stage3, dia[10], b_stage_akasztas;
+extern bool b_mainMenu, b_stage0, b_stage1, b_stage2, b_stage3, b_stage4, dia[10], b_stage_akasztas, b_stage_keseles;
 
 
 int main()
@@ -88,7 +88,7 @@ int main()
 										dia[i] = false;
 									dia[0] = true;
 									darkness = 255;
-									loadTextStage_akasztas();
+									loadTextsStage_akasztas();
 								}
 							}
 						}
@@ -104,7 +104,13 @@ int main()
 							{
 								if (e.key.keysym.sym == SDLK_1)
 								{
-									
+									b_stage2 = false;
+									b_stage_keseles = true;
+									for (int i = 0; i < 6; ++i)
+										dia[i] = false;
+									dia[0] = true;
+									darkness = 255;
+									loadTextsStage_keseles();
 								}
 								else if (e.key.keysym.sym == SDLK_2)
 								{
@@ -124,7 +130,40 @@ int main()
 					{
 						if (e.type == SDL_KEYDOWN)
 						{
-							changeDialogStage3();
+							if (dia[4])
+							{
+								b_stage3 = false;
+								b_stage_akasztas = true;
+								for (int i = 0; i < 6; ++i)
+									dia[i] = false;
+								dia[0] = true;
+								darkness = 255;
+								loadTextsStage_akasztas();
+							}
+							else if(!dia[3])
+								changeDialogStage3();
+							else if(dia[3])
+							{
+								if (e.key.keysym.sym == SDLK_1)
+								{
+									changeDialogStage3();
+								}
+								else if(e.key.keysym.sym == SDLK_2)
+								{
+									b_stage3 = false;
+									b_stage4 = true;
+									for (int i = 0; i < 6; ++i)
+										dia[i] = false;
+									dia[0] = true;
+									darkness = 255;
+									//loadTextsStage4();
+								}
+								else if (e.key.keysym.sym == SDLK_3)
+								{
+									changeDialogStage3();
+								}
+							}
+							
 						}
 					}
 					else if (b_stage_akasztas)
@@ -136,7 +175,15 @@ int main()
 							darkness = 255;
 						}
 					}
-
+					else if (b_stage_keseles)
+					{
+						if (e.type == SDL_KEYDOWN)
+						{
+							b_stage_keseles = false;
+							b_mainMenu = true;
+							darkness = 255;
+						}
+					}
 				}
 
 				///Cleaning
@@ -304,8 +351,8 @@ int main()
 					//textures//
 					hid.render(0, 0, NULL);
 					textBox.render(0, 0, NULL);
+					goblin.render(585, 350, NULL);
 					blackTrans.render(0, 0, NULL);
-
 
 					//*text transition*//
 					if (dia[0])
@@ -347,7 +394,7 @@ int main()
 					{
 						textBoxtext1.render(300, 530, &textTransition1);
 						textBoxtext2.render(300, 550, &textTransition2);
-						
+
 					}
 					else if (dia[1])
 					{
@@ -377,6 +424,8 @@ int main()
 						blackTrans.setAlpha(darkness);
 					}
 					
+
+					banyaBejar.render(0, 0, NULL);
 					textBox.render(0, 0, NULL);
 					blackTrans.render(0, 0, NULL);
 
@@ -417,6 +466,15 @@ int main()
 						else if (textTransition6.w < textBoxtext6.getWidth())
 							textTransition6.w += SPEED;
 					}
+					else if (dia[4])
+					{
+						if (textTransition1.w < textBoxtext1.getWidth())
+							textTransition1.w += SPEED;
+						else if (textTransition2.w < textBoxtext2.getWidth())
+							textTransition2.w += SPEED;
+						else if (textTransition3.w < textBoxtext3.getWidth())
+							textTransition3.w += SPEED;
+					}
 
 
 					//*text rendering*//
@@ -443,6 +501,12 @@ int main()
 						textBoxtext4.render(300, 610, &textTransition4);
 						textBoxtext5.render(300, 630, &textTransition5);
 						textBoxtext6.render(300, 650, &textTransition6);
+					}
+					else if (dia[4])
+					{
+						textBoxtext1.render(300, 530, &textTransition1);
+						textBoxtext2.render(300, 550, &textTransition2);
+						textBoxtext3.render(300, 570, &textTransition3);
 					}
 
 				}
@@ -474,6 +538,38 @@ int main()
 					{
 						textBoxtext1.render(300, 530, &textTransition1);
 						textBoxtext2.render(300, 560, &textTransition2);
+					}
+				}
+				else if (b_stage_keseles)
+				{
+					if (darkness > 0)
+					{
+						darkness -= SPEED;
+						blackTrans.setAlpha(darkness);
+					}
+
+					halalSotet.render(0, 0, NULL);
+					keseles.render((SCREEN_WIDTH - keseles.getWidth()) / 2, (SCREEN_HEIGHT - keseles.getHeight()) / 2, NULL);
+					textBox.render(0, 0, NULL);
+					blackTrans.render(0, 0, NULL);
+					
+					//textTranstiion
+					if (dia[0])
+					{
+						if (textTransition1.w < textBoxtext1.getWidth())
+							textTransition1.w += SPEED;
+						else if (textTransition2.w < textBoxtext2.getWidth())
+							textTransition2.w += SPEED;
+						else if (textTransition3.w < textBoxtext3.getWidth())
+							textTransition3.w += SPEED;
+					}
+
+					//text rendering
+					if (dia[0])
+					{
+						textBoxtext1.render(300, 530, &textTransition1);
+						textBoxtext2.render(300, 560, &textTransition2);
+						textBoxtext3.render(300, 590, &textTransition3);
 					}
 				}
 
