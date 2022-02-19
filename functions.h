@@ -23,7 +23,7 @@ const int MAX_BUTTONS = 2;
 SDL_Window* Window = NULL;
 SDL_Renderer* Renderer = NULL;
 
-LImage mainMenu, blackTrans, kastely, kastely_belso, hid, akasztott, halalSotet, gameOver, banyaBejar, goblin;
+LImage mainMenu, blackTrans, kastely, kastely_belso, hid, akasztott, halalSotet, gameOver, keseles, banyaBejar, goblin;
 LImage textBox;
 LImage textBoxtext1, textBoxtext2, textBoxtext3, textBoxtext4, textBoxtext5, textBoxtext6, textBoxtext7;
 LImage mainMenuText;
@@ -44,8 +44,8 @@ SDL_Rect textTransition5 = { 0, 0, 0, 15 };
 SDL_Rect textTransition6 = { 0, 0, 0, 15 };
 
 
-bool b_mainMenu, b_stage0, b_stage1, b_stage2, b_stage3;
-bool b_stage_akasztas;
+bool b_mainMenu, b_stage0, b_stage1, b_stage2, b_stage3, b_stage4;
+bool b_stage_akasztas, b_stage_keseles;
 bool dia[10];
 Uint8 darkness;
 int startTime;
@@ -169,6 +169,20 @@ bool loadMedia()
     {
         std::cout << IMG_GetError() << "\n";
         return false;
+    }
+    if (!keseles.loadFromFile("Images/keseles.png"))
+    {
+        std::cout << IMG_GetError() << "\n";
+        return false;
+    }
+    if (!banyaBejar.loadFromFile("Images/banya_bejarat.png"))
+    {
+        std::cout << IMG_GetError() << "\n";
+        return false;
+    }
+    if (!goblin.loadFromFile("Images/goblin.png"))
+    {
+        std::cout << IMG_GetError() << "\n";
     }
     ///Texts///
     SDL_Color textColor = {0, 0, 0};
@@ -424,10 +438,28 @@ void changeDialogStage2()
     }
 }
 
-
-void loadTextStage_akasztas()
+void loadTextsStage_keseles()
 {
-    if (!textBoxtext1.loadFromRenderedText("For you haven't done the emperor's command", { 200, 200, 200 }, textFont))
+    if (!textBoxtext1.loadFromRenderedText("He stabbed you 45 times with his butterknife", { 200, 200, 200 }, textFont))
+    {
+        std::cout << TTF_GetError() << "\n";
+    }
+    if (!textBoxtext2.loadFromRenderedText("and you died a horrible death...", { 200, 200, 200 }, textFont))
+    {
+        std::cout << TTF_GetError() << "\n";
+    }
+    if (!textBoxtext3.loadFromRenderedText("(press any key to restart)", { 200, 200, 200 }, textFont))
+    {
+        std::cout << TTF_GetError() << "\n";
+    }
+    textTransition1 = { 0, 0, 0, 15 };
+    textTransition2 = { 0, 0, 0, 15 };
+    textTransition3 = { 0, 0, 0, 15 };
+}
+
+void loadTextsStage_akasztas()
+{
+    if (!textBoxtext1.loadFromRenderedText("For you haven't completed the emperor's command", { 200, 200, 200 }, textFont))
     {
         std::cout << TTF_GetError() << "\n";
     }
@@ -457,7 +489,7 @@ void loadTextsStage3()
 void changeDialogStage3()
 {
     int i;
-    for (i = 0; i <= 3 && !dia[i]; ++i);
+    for (i = 0; i <= 4 && !dia[i]; ++i);
 
     dia[i] = false;
     dia[i + 1] = true;
@@ -490,7 +522,7 @@ void changeDialogStage3()
     }
     else if (i + 1 == 3)
     {
-        if (!textBoxtext1.loadFromRenderedText("I don't care about your filthy money!", { 200, 200, 200 }, textFont))
+        if (!textBoxtext1.loadFromRenderedText("MINER: I don't care about your filthy money!", { 200, 200, 200 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
@@ -498,7 +530,7 @@ void changeDialogStage3()
         {
             std::cout << TTF_GetError() << "\n";
         }
-        if (!textBoxtext3.loadFromRenderedText("What is the integral of (x-2)/sqrt(1-x^2)?", { 255, 255, 255 }, textFont))
+        if (!textBoxtext3.loadFromRenderedText("What is the integral of (x-2)/sqrt(1-x^2)?(1/2/3)", { 255, 255, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
@@ -520,6 +552,24 @@ void changeDialogStage3()
         textTransition4 = { 0, 0, 0, 15 };
         textTransition5 = { 0, 0, 0, 15 };
         textTransition6 = { 0, 0, 0, 15 };
+    }
+    if (i + 1 == 4)
+    {
+        if (!textBoxtext1.loadFromRenderedText("MINER: I won't let into my mine some stupid fool,", { 200, 200, 200 }, textFont))
+        {
+            std::cout << TTF_GetError() << "\n";
+        }
+        if (!textBoxtext2.loadFromRenderedText("who cannot answer some rudimentary questions!", { 200, 200, 200 }, textFont))
+        {
+            std::cout << TTF_GetError() << "\n";
+        }
+        if (!textBoxtext3.loadFromRenderedText("Get the hell out of my sight!", { 200, 200, 200 }, textFont))
+        {
+            std::cout << TTF_GetError() << "\n";
+        }
+        textTransition1 = { 0, 0, 0, 15 };
+        textTransition2 = { 0, 0, 0, 15 };
+        textTransition3 = { 0, 0, 0, 15 };
     }
 }
 
