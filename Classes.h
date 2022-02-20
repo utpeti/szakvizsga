@@ -1,10 +1,10 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include "../SDL2/include/SDL.h"
-#include "../SDL2/SDL2_Image/include/SDL_image.h"
-#include "../SDL2/SDL2_mixer/include/SDL_mixer.h"
-#include "../SDL2/SDL2_ttf/include/SDL_ttf.h"
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
+#include <SDL_mixer.h>
 #include "functions.h"
 /*#include <SDL.h>
 #include <SDL_image.h>
@@ -104,7 +104,7 @@ void LImage::free()
 	{
 		SDL_DestroyTexture(mTexture);
 		mTexture = NULL;
-		mWidth = 0; 
+		mWidth = 0;
 		mHeight = 0;
 	}
 }
@@ -119,7 +119,7 @@ bool LImage::loadFromFile(std::string path)
 	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
 	if (loadedSurface == NULL)
 	{
-		
+
 		return false;
 	}
 
@@ -161,7 +161,7 @@ bool LImage::loadFromRenderedText(std::string textureText, SDL_Color textColor, 
 	mHeight = textSurface->h;
 
 	SDL_FreeSurface(textSurface);
-	
+
 	return true;
 }
 
@@ -174,7 +174,7 @@ void LImage::render(int x, int y, SDL_Rect* clip, SDL_RendererFlip flip)
 	{
 		renderQuad.w = (*clip).w;
 		renderQuad.h = (*clip).h;
-		
+
 	}
 	SDL_RenderCopy(Renderer, mTexture, clip, &renderQuad);
 }
@@ -262,14 +262,14 @@ void LButtonPosition::HandleEvent(SDL_Event* e)
 		{
 			inside = false;
 		}
-		
+
 		if (inside)
 		{
 			SDL_SetTextureColorMod(mTexture, 220, 190, 200);
 			if (e->type == SDL_MOUSEBUTTONDOWN)
 			{
 				buttonEvent();
-				
+
 			}
 		}
 		else
@@ -304,4 +304,3 @@ int LButtonPosition::getPosy()
 {
 	return LPosition.y;
 }
-
