@@ -11,7 +11,7 @@ using namespace std;
 
 
 //#undef main
-
+//!!!!!!!!!!!! ne menjen 1 ala a meroindex!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 const int SPEED = 5;
 
