@@ -11,14 +11,14 @@ using namespace std;
 
 
 //#undef main
-//!!!!!!!!!!!! ne menjen 1 ala a meroindex!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
 const int SPEED = 5;
 
 extern SDL_Window* Window;
 extern SDL_Renderer* Renderer;
 extern LButtonPosition buttons[5];
-extern bool b_mainMenu, b_stage0, b_stage1, b_stage2, b_stage3, b_stage4, b_stage5, b_stage6, b_stage7, dia[10], b_stage_akasztas, b_stage_keseles, b_stage_asthma;
+extern bool b_mainMenu, b_stage0, b_stage1, b_stage2, b_stage3, b_stage4, b_stage5, b_stage6, b_stage7, dia[20], b_stage_akasztas, b_stage_keseles, b_stage_asthma;
 extern unsigned int meroindex;
 
 
@@ -242,36 +242,40 @@ int main()
 					{
 						if (e.type == SDL_KEYDOWN)
 						{
-							if (!dia[7])
+							if (!dia[20])
 							{
 								if (dia[0])
 									changeDialogStage7();
 								else if (dia[1])
 									changeDialogStage7();
 								else if (dia[2])
-								{
-									if (e.key.keysym.sym == SDLK_1)
-									{
-										changeDialogStage7();
-										++meroindex;
-									}
-									else if (e.key.keysym.sym == SDLK_2)
-									{
-										changeDialogStage7();
-									}
-									else if (e.key.keysym.sym == SDLK_3)
-									{
-										b_stage7 = false;
-										b_stage_akasztas = true;
-										for (int i = 0; i < 6; ++i)
-											dia[i] = false;
-										dia[0] = true;
-										darkness = 255;
-										loadTextsStage_akasztas();
-										//itt ebben a pillanatban meg is halsz
-									}
-								}
+									changeDialogStage7();
 								else if (dia[3])
+									changeDialogStage7();
+								else if (dia[4])
+								{
+									if (e.key.keysym.sym == SDLK_1)
+									{
+										changeDialogStage7();
+										++meroindex;
+									}
+									else if (e.key.keysym.sym == SDLK_2)
+									{
+										changeDialogStage7();
+									}
+									else if (e.key.keysym.sym == SDLK_3)
+									{
+										b_stage7 = false;
+										b_stage_akasztas = true;
+										for (int i = 0; i < 6; ++i)
+											dia[i] = false;
+										dia[0] = true;
+										darkness = 255;
+										loadTextsStage_akasztas();
+										//itt ebben a pillanatban meg is halsz
+									}
+								}
+								else if (dia[5])
 								{
 									if (e.key.keysym.sym == SDLK_1)
 									{
@@ -294,7 +298,7 @@ int main()
 										changeDialogStage7();
 									}
 								}
-								else if (dia[4])
+								else if (dia[6])
 								{
 									if (e.key.keysym.sym == SDLK_1)
 									{
@@ -309,6 +313,73 @@ int main()
 									{
 										changeDialogStage7();
 										++meroindex;
+									}
+								}
+								else if (dia[7])
+								{
+									if (e.key.keysym.sym == SDLK_1)
+									{
+										changeDialogStage7();
+									}
+									else if (e.key.keysym.sym == SDLK_2)
+									{
+										changeDialogStage7();
+										--meroindex;
+									}
+									else if (e.key.keysym.sym == SDLK_3)
+									{
+										changeDialogStage7();
+										++meroindex;
+									}
+								}
+								else if (dia[8])
+								{
+									if (e.key.keysym.sym == SDLK_1)
+									{
+										changeDialogStage7();
+									}
+									else if (e.key.keysym.sym == SDLK_2)
+									{
+										changeDialogStage7();
+									}
+									else if (e.key.keysym.sym == SDLK_3)
+									{
+										changeDialogStage7();
+									}
+								}
+								else if (dia[9])
+								{
+									if (e.key.keysym.sym == SDLK_1)
+									{
+										//changeDialogStage7();
+										meroindex -= 2;
+									}
+									else if (e.key.keysym.sym == SDLK_2)
+									{
+										cout << "ok";
+										//changeDialogStage7() itt kell folytatni;
+									}
+									else if (e.key.keysym.sym == SDLK_3)
+									{
+										changeDialogStage7();
+									}
+								}
+								else if (dia[10])
+								{
+									if (e.key.keysym.sym == SDLK_1)
+									{
+										cout << "ok";
+										//changeDialogStage7();
+									}
+									else if (e.key.keysym.sym == SDLK_2)
+									{
+										cout << "ok";
+										//changeDialogStage7() itt kell folytatni;
+									}
+									else if (e.key.keysym.sym == SDLK_3)
+									{
+										cout << "ok";
+										//changeDialogStage7();
 									}
 								}
 							}
@@ -778,12 +849,6 @@ int main()
 							textTransition2.w += SPEED;
 						else if (textTransition3.w < textBoxtext3.getWidth())
 							textTransition3.w += SPEED;
-						else if (textTransition4.w < textBoxtext4.getWidth())
-							textTransition4.w += SPEED;
-						else if (textTransition5.w < textBoxtext5.getWidth())
-							textTransition5.w += SPEED;
-						else if (textTransition6.w < textBoxtext6.getWidth())
-							textTransition6.w += SPEED;
 					}
 					else if (dia[1])
 					{
@@ -793,23 +858,11 @@ int main()
 							textTransition2.w += SPEED;
 						else if (textTransition3.w < textBoxtext3.getWidth())
 							textTransition3.w += SPEED;
-						else if (textTransition4.w < textBoxtext4.getWidth())
-							textTransition4.w += SPEED;
-						else if (textTransition5.w < textBoxtext5.getWidth())
-							textTransition5.w += SPEED;
-						else if (textTransition6.w < textBoxtext6.getWidth())
-							textTransition6.w += SPEED;
 					}
 					else if (dia[2])
 					{
 						if (textTransition1.w < textBoxtext1.getWidth())
 							textTransition1.w += SPEED;
-						else if (textTransition2.w < textBoxtext2.getWidth())
-							textTransition2.w += SPEED;
-						else if (textTransition3.w < textBoxtext3.getWidth())
-							textTransition3.w += SPEED;
-						else if (textTransition4.w < textBoxtext4.getWidth())
-							textTransition4.w += SPEED;
 					}
 					else if (dia[3])
 					{
@@ -821,6 +874,8 @@ int main()
 							textTransition3.w += SPEED;
 						else if (textTransition4.w < textBoxtext4.getWidth())
 							textTransition4.w += SPEED;
+						else if (textTransition5.w < textBoxtext5.getWidth())
+							textTransition5.w += SPEED;
 					}
 					else if (dia[4])
 					{
@@ -832,8 +887,84 @@ int main()
 							textTransition3.w += SPEED;
 						else if (textTransition4.w < textBoxtext4.getWidth())
 							textTransition4.w += SPEED;
+					}
+					else if (dia[5])
+					{
+						if (textTransition1.w < textBoxtext1.getWidth())
+							textTransition1.w += SPEED;
+						else if (textTransition2.w < textBoxtext2.getWidth())
+							textTransition2.w += SPEED;
+						else if (textTransition3.w < textBoxtext3.getWidth())
+							textTransition3.w += SPEED;
+						else if (textTransition4.w < textBoxtext4.getWidth())
+							textTransition4.w += SPEED;
+					}
+					else if (dia[6])
+					{
+						if (textTransition1.w < textBoxtext1.getWidth())
+							textTransition1.w += SPEED;
+						else if (textTransition2.w < textBoxtext2.getWidth())
+							textTransition2.w += SPEED;
+						else if (textTransition3.w < textBoxtext3.getWidth())
+							textTransition3.w += SPEED;
+						else if (textTransition4.w < textBoxtext4.getWidth())
+							textTransition4.w += SPEED;
 						else if (textTransition5.w < textBoxtext5.getWidth())
 							textTransition5.w += SPEED;
+					}
+					else if (dia[7])
+					{
+						if (textTransition1.w < textBoxtext1.getWidth())
+							textTransition1.w += SPEED;
+						else if (textTransition2.w < textBoxtext2.getWidth())
+							textTransition2.w += SPEED;
+						else if (textTransition3.w < textBoxtext3.getWidth())
+							textTransition3.w += SPEED;
+						else if (textTransition4.w < textBoxtext4.getWidth())
+							textTransition4.w += SPEED;
+						else if (textTransition5.w < textBoxtext5.getWidth())
+							textTransition5.w += SPEED;
+						else if (textTransition6.w < textBoxtext6.getWidth())
+							textTransition6.w += SPEED;
+					}
+					else if (dia[8])
+					{
+						if (textTransition1.w < textBoxtext1.getWidth())
+							textTransition1.w += SPEED;
+						else if (textTransition2.w < textBoxtext2.getWidth())
+							textTransition2.w += SPEED;
+						else if (textTransition3.w < textBoxtext3.getWidth())
+							textTransition3.w += SPEED;
+						else if (textTransition4.w < textBoxtext4.getWidth())
+							textTransition4.w += SPEED;
+						else if (textTransition5.w < textBoxtext5.getWidth())
+							textTransition5.w += SPEED;
+						else if (textTransition6.w < textBoxtext6.getWidth())
+							textTransition6.w += SPEED;
+					}
+					else if (dia[9])
+					{
+					if (textTransition1.w < textBoxtext1.getWidth())
+						textTransition1.w += SPEED;
+					else if (textTransition2.w < textBoxtext2.getWidth())
+						textTransition2.w += SPEED;
+					else if (textTransition3.w < textBoxtext3.getWidth())
+						textTransition3.w += SPEED;
+					else if (textTransition4.w < textBoxtext4.getWidth())
+						textTransition4.w += SPEED;
+					else if (textTransition5.w < textBoxtext5.getWidth())
+						textTransition5.w += SPEED;
+					}
+					else if (dia[10])
+					{
+					if (textTransition1.w < textBoxtext1.getWidth())
+						textTransition1.w += SPEED;
+					else if (textTransition2.w < textBoxtext2.getWidth())
+						textTransition2.w += SPEED;
+					else if (textTransition3.w < textBoxtext3.getWidth())
+						textTransition3.w += SPEED;
+					else if (textTransition4.w < textBoxtext4.getWidth())
+						textTransition4.w += SPEED;
 					}
 
 					if (dia[0])
@@ -841,25 +972,16 @@ int main()
 						textBoxtext1.render(300, 530, &textTransition1);
 						textBoxtext2.render(300, 560, &textTransition2);
 						textBoxtext3.render(300, 590, &textTransition3);
-						textBoxtext4.render(300, 620, &textTransition4);
-						textBoxtext5.render(300, 650, &textTransition5);
-						textBoxtext6.render(300, 680, &textTransition6);
 					}
 					else if (dia[1])
 					{
 						textBoxtext1.render(300, 530, &textTransition1);
 						textBoxtext2.render(300, 560, &textTransition2);
 						textBoxtext3.render(300, 590, &textTransition3);
-						textBoxtext4.render(300, 620, &textTransition4);
-						textBoxtext5.render(300, 650, &textTransition5);
-						textBoxtext6.render(300, 680, &textTransition6);
 					}
 					else if (dia[2])
 					{
 						textBoxtext1.render(300, 530, &textTransition1);
-						textBoxtext2.render(300, 560, &textTransition2);
-						textBoxtext3.render(300, 590, &textTransition3);
-						textBoxtext4.render(300, 620, &textTransition4);
 					}
 					else if (dia[3])
 					{
@@ -867,6 +989,7 @@ int main()
 						textBoxtext2.render(300, 560, &textTransition2);
 						textBoxtext3.render(300, 590, &textTransition3);
 						textBoxtext4.render(300, 620, &textTransition4);
+						textBoxtext5.render(300, 650, &textTransition5);
 					}
 					else if (dia[4])
 					{
@@ -874,7 +997,54 @@ int main()
 						textBoxtext2.render(300, 560, &textTransition2);
 						textBoxtext3.render(300, 590, &textTransition3);
 						textBoxtext4.render(300, 620, &textTransition4);
+					}
+					else if (dia[5])
+					{
+						textBoxtext1.render(300, 530, &textTransition1);
+						textBoxtext2.render(300, 560, &textTransition2);
+						textBoxtext3.render(300, 590, &textTransition3);
+						textBoxtext4.render(300, 620, &textTransition4);
+					}
+					else if (dia[6])
+					{
+						textBoxtext1.render(300, 530, &textTransition1);
+						textBoxtext2.render(300, 560, &textTransition2);
+						textBoxtext3.render(300, 590, &textTransition3);
+						textBoxtext4.render(300, 620, &textTransition4);
 						textBoxtext5.render(300, 650, &textTransition5);
+					}
+					else if (dia[7])
+					{
+						textBoxtext1.render(300, 530, &textTransition1);
+						textBoxtext2.render(300, 560, &textTransition2);
+						textBoxtext3.render(300, 590, &textTransition3);
+						textBoxtext4.render(300, 620, &textTransition4);
+						textBoxtext5.render(300, 650, &textTransition5);
+						textBoxtext6.render(300, 680, &textTransition6);
+					}
+					else if (dia[8])
+					{
+						textBoxtext1.render(300, 530, &textTransition1);
+						textBoxtext2.render(300, 560, &textTransition2);
+						textBoxtext3.render(300, 590, &textTransition3);
+						textBoxtext4.render(300, 620, &textTransition4);
+						textBoxtext5.render(300, 650, &textTransition5);
+						textBoxtext6.render(300, 680, &textTransition6);
+					}
+					else if (dia[9])
+					{
+						textBoxtext1.render(300, 530, &textTransition1);
+						textBoxtext2.render(300, 560, &textTransition2);
+						textBoxtext3.render(300, 590, &textTransition3);
+						textBoxtext4.render(300, 620, &textTransition4);
+						textBoxtext5.render(300, 650, &textTransition5);
+					}
+					else if (dia[10])
+					{
+						textBoxtext1.render(300, 530, &textTransition1);
+						textBoxtext2.render(300, 560, &textTransition2);
+						textBoxtext3.render(300, 590, &textTransition3);
+						textBoxtext4.render(300, 620, &textTransition4);
 					}
 				}
 				else if (b_stage_akasztas)
