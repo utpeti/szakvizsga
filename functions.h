@@ -312,15 +312,15 @@ void changeDialogStage0()
 
 void loadTextsStage1() //loads initial texts and sets other stuff
 {
-    if (!textBoxtext1.loadFromRenderedText("EMPEROR: You are probably wondering why I invited", { 158, 158, 158 }, textFont))
+    if (!textBoxtext1.loadFromRenderedText("EMPEROR: You are probably wondering why I invited", { 153, 51, 255 }, textFont))
     {
         std::cout << TTF_GetError() << "\n";
     }
-    if (!textBoxtext2.loadFromRenderedText("you to my splendid palace! Unfortunately, my", { 158, 158, 158 }, textFont))
+    if (!textBoxtext2.loadFromRenderedText("you to my splendid palace! Unfortunately, my", { 153, 51, 255 }, textFont))
     {
         std::cout << TTF_GetError() << "\n";
     }
-    if (!textBoxtext3.loadFromRenderedText("daughter has been kidnapped!", { 158, 158, 158 }, textFont))
+    if (!textBoxtext3.loadFromRenderedText("daughter has been kidnapped!", { 153, 51, 255 }, textFont))
     {
         std::cout << TTF_GetError() << "\n";
     }
@@ -349,11 +349,11 @@ void changeDialogStage1()
         }
         else if (i + 1 == 2)
         {
-            if (!textBoxtext1.loadFromRenderedText("EMPEROR: Therefore, I kindly ask you to", { 158, 158, 158 }, textFont))
+            if (!textBoxtext1.loadFromRenderedText("EMPEROR: Therefore, I kindly ask you to", { 153, 51, 255 }, textFont))
             {
                 std::cout << TTF_GetError() << "\n";
             }
-            if (!textBoxtext2.loadFromRenderedText("help her.", { 158, 158, 158 }, textFont))
+            if (!textBoxtext2.loadFromRenderedText("help her.", { 153, 51, 255 }, textFont))
             {
                 std::cout << TTF_GetError() << "\n";
             }
@@ -370,11 +370,11 @@ void changeDialogStage1()
         }
         else if (i + 1 == 4)
         {
-            if (!textBoxtext1.loadFromRenderedText("EMPEROR: Gossips say she is in the dangerous", { 158, 158, 158 }, textFont))
+            if (!textBoxtext1.loadFromRenderedText("EMPEROR: Gossips say she is in the dangerous", { 153, 51, 255 }, textFont))
             {
                 std::cout << TTF_GetError() << "\n";
             }
-            if (!textBoxtext2.loadFromRenderedText("Magic Mine!", { 158, 158, 158 }, textFont))
+            if (!textBoxtext2.loadFromRenderedText("Magic Mine!", { 153, 51, 255 }, textFont))
             {
                 std::cout << TTF_GetError() << "\n";
             }
@@ -413,15 +413,15 @@ void changeDialogStage2()
     dia[i + 1] = true;
     if (i + 1 == 1)
     {
-        if (!textBoxtext1.loadFromRenderedText("GIBBON: So we meet again! You already know my", { 200, 200, 200 }, textFont))
+        if (!textBoxtext1.loadFromRenderedText("GIBBON: So we meet again! You already know my", { 102, 255, 102 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
-        if (!textBoxtext2.loadFromRenderedText("conditions: either you pay to cross this bridge", { 200, 200, 200 }, textFont))
+        if (!textBoxtext2.loadFromRenderedText("conditions: either you pay to cross this bridge", { 102, 255, 102 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
-        if (!textBoxtext3.loadFromRenderedText("or you die!", { 200, 200, 200 }, textFont))
+        if (!textBoxtext3.loadFromRenderedText("or you die!", { 102, 255, 102 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
@@ -449,7 +449,7 @@ void changeDialogStage2()
     }
     else if (i + 1 == 3)
     {
-        if (!textBoxtext1.loadFromRenderedText("GIBBON: So what is your next move? (1/2)", { 255, 255, 255 }, textFont))
+        if (!textBoxtext1.loadFromRenderedText("GIBBON: So what is your next move? (1/2)", { 102, 255, 102 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
@@ -525,11 +525,11 @@ void changeDialogStage3()
 
     if (i + 1 == 1)
     {
-        if (!textBoxtext1.loadFromRenderedText("MINER: Halt! You shall not pass, unless ", { 200, 200, 200 }, textFont))
+        if (!textBoxtext1.loadFromRenderedText("MINER: Halt! You shall not pass, unless ", { 255, 128, 0 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
-        if (!textBoxtext2.loadFromRenderedText("you answer my question!", { 200, 200, 200 }, textFont))
+        if (!textBoxtext2.loadFromRenderedText("you answer my question!", { 255, 128, 0 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
@@ -551,15 +551,15 @@ void changeDialogStage3()
     }
     else if (i + 1 == 3)
     {
-        if (!textBoxtext1.loadFromRenderedText("MINER: I don't care about your filthy money!", { 200, 200, 200 }, textFont))
+        if (!textBoxtext1.loadFromRenderedText("MINER: I don't care about your filthy money!", { 255, 128, 0 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
-        if (!textBoxtext2.loadFromRenderedText("My question is:", { 200, 200, 200 }, textFont))
+        if (!textBoxtext2.loadFromRenderedText("My question is:", { 255, 128, 0 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
-        if (!textBoxtext3.loadFromRenderedText("What is the integral of (x-2)/sqrt(1-x^2)?(1/2/3)", { 255, 255, 255 }, textFont))
+        if (!textBoxtext3.loadFromRenderedText("What is the integral of (x-2)/sqrt(1-x^2)?(1/2/3)", { 255, 128, 0 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
@@ -584,15 +584,15 @@ void changeDialogStage3()
     }
     if (i + 1 == 4)
     {
-        if (!textBoxtext1.loadFromRenderedText("MINER: I won't let into my mine some stupid fool,", { 200, 200, 200 }, textFont))
+        if (!textBoxtext1.loadFromRenderedText("MINER: I won't let into my mine some stupid fool,", { 255, 128, 0 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
-        if (!textBoxtext2.loadFromRenderedText("who cannot answer some rudimentary questions!", { 200, 200, 200 }, textFont))
+        if (!textBoxtext2.loadFromRenderedText("who cannot answer some rudimentary questions!", { 255, 128, 0 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
-        if (!textBoxtext3.loadFromRenderedText("Get the hell out of my sight!", { 200, 200, 200 }, textFont))
+        if (!textBoxtext3.loadFromRenderedText("Get the hell out of my sight!", { 255, 128, 0 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
@@ -737,15 +737,15 @@ void changeDialogStage7()
     dia[i + 1] = true;
     if(i + 1 == 1)
     {
-        if (!textBoxtext1.loadFromRenderedText("PRINCESS: If you came here to bring me back", { 200, 200, 200 }, textFont))
+        if (!textBoxtext1.loadFromRenderedText("PRINCESS: If you came here to bring me back", { 255, 153, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
-        if (!textBoxtext2.loadFromRenderedText("there, you can already get lost! There is no", { 200, 200, 200 }, textFont))
+        if (!textBoxtext2.loadFromRenderedText("there, you can already get lost! There is no", { 255, 153, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
-        if (!textBoxtext3.loadFromRenderedText("terrifying monster here, I came here on my own.", { 200, 200, 200 }, textFont))
+        if (!textBoxtext3.loadFromRenderedText("terrifying monster here, I came here on my own.", { 255, 153, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
@@ -763,23 +763,23 @@ void changeDialogStage7()
     }
     else if(i + 1 == 3)
     {
-        if (!textBoxtext1.loadFromRenderedText("PRINCESS: I payed him to defend me and let in", { 200, 200, 200 }, textFont))
+        if (!textBoxtext1.loadFromRenderedText("PRINCESS: I payed him to defend me and let in", { 255, 153, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
-        if (!textBoxtext2.loadFromRenderedText("only those people that have an IQ level above", { 200, 200, 200 }, textFont))
+        if (!textBoxtext2.loadFromRenderedText("only those people that have an IQ level above", { 255, 153, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
-        if (!textBoxtext3.loadFromRenderedText("room temperature. You know, I need a company", { 200, 200, 200 }, textFont))
+        if (!textBoxtext3.loadFromRenderedText("room temperature. You know, I need a company", { 255, 153, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
-        if (!textBoxtext4.loadFromRenderedText("sometimes. But not with those jerk servants,", { 200, 200, 200 }, textFont))
+        if (!textBoxtext4.loadFromRenderedText("sometimes. But not with those jerk servants,", { 255, 153, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
-        if (!textBoxtext5.loadFromRenderedText("they know nothing!", { 200, 200, 200 }, textFont))
+        if (!textBoxtext5.loadFromRenderedText("they know nothing!", { 255, 153, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
@@ -791,7 +791,7 @@ void changeDialogStage7()
     }
     else if (i + 1 == 4)
     {
-        if (!textBoxtext1.loadFromRenderedText("Anyway...why did you come here?", { 200, 200, 200 }, textFont))
+        if (!textBoxtext1.loadFromRenderedText("Anyway...why did you come here?", { 255, 153, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
@@ -814,7 +814,7 @@ void changeDialogStage7()
     }
     else if (i + 1 == 5)
     {
-        if (!textBoxtext1.loadFromRenderedText("Why do you help for my father?", { 200, 200, 200 }, textFont))
+        if (!textBoxtext1.loadFromRenderedText("Why do you help for my father?", { 255, 153, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
@@ -838,7 +838,7 @@ void changeDialogStage7()
     }
     if (i + 1 == 6)
     {
-        if (!textBoxtext1.loadFromRenderedText("Please, leave me alone!", { 200, 200, 200 }, textFont))
+        if (!textBoxtext1.loadFromRenderedText("Please, leave me alone!", { 255, 153, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
@@ -866,15 +866,15 @@ void changeDialogStage7()
     }
     if (i + 1 == 7)
     {
-        if (!textBoxtext1.loadFromRenderedText("...You don't know what will wait for me when", { 200, 200, 200 }, textFont))
+        if (!textBoxtext1.loadFromRenderedText("...You don't know what will wait for me when", { 255, 153, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
-        if (!textBoxtext2.loadFromRenderedText("I arrive home. You just execute his tasks you", { 200, 200, 200 }, textFont))
+        if (!textBoxtext2.loadFromRenderedText("I arrive home. You just execute his tasks you", { 255, 153, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
-        if (!textBoxtext3.loadFromRenderedText("do not know him!", { 200, 200, 200 }, textFont))
+        if (!textBoxtext3.loadFromRenderedText("do not know him!", { 255, 153, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
@@ -899,7 +899,7 @@ void changeDialogStage7()
     }
     if (i + 1 == 8)
     {
-        if (!textBoxtext1.loadFromRenderedText("Why should I even trust you?", { 200, 200, 200 }, textFont))
+        if (!textBoxtext1.loadFromRenderedText("Why should I even trust you?", { 255, 153, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
@@ -932,7 +932,7 @@ void changeDialogStage7()
     }
     if (i + 1 == 9)
     {
-        if (!textBoxtext1.loadFromRenderedText("Look, I really don't want to go back!", { 200, 200, 200 }, textFont))
+        if (!textBoxtext1.loadFromRenderedText("Look, I really don't want to go back!", { 255, 153, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
@@ -960,7 +960,7 @@ void changeDialogStage7()
     }
     else if (i + 1 == 10)
     {
-        if (!textBoxtext1.loadFromRenderedText("If you come back with me:", { 200, 200, 200 }, textFont))
+        if (!textBoxtext1.loadFromRenderedText("If you come back with me:", { 255, 153, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
