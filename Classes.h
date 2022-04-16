@@ -18,12 +18,14 @@ extern const int SCREEN_HEIGHT;
 
 extern SDL_Window* Window;
 extern SDL_Renderer* Renderer;
+extern Mix_Music* Oblivion;
 extern bool b_stage0, b_mainMenu;
-extern bool dia[10];
+extern bool dia[20];
 extern Uint8 darkness;
 extern TTF_Font* menuFont;
 extern void loadTextsStage0();
 extern int Time();
+extern int startTime;
 
 
 enum ButtonFunction : Uint8
@@ -292,6 +294,8 @@ void LButtonPosition::buttonEvent()
 		dia[0] = true; //az elso dialogot mar toltheti is be
 		///loading in stage0's textBoxtexts;
 		loadTextsStage0();
+		Mix_PlayMusic(Oblivion, -1);
+		startTime = SDL_GetTicks();
 	}
 }
 
