@@ -588,11 +588,12 @@ int main()
 					//textures//
 					hid.render(0, 0, NULL);
 					textBox.render(0, 0, NULL);
-					goblin.render(585, 350, NULL);
 					blackTrans.render(0, 0, NULL);
 
 					//characters
 					hero.render(40, 450, NULL);
+					goblin.render(1050, 500, NULL);
+
 
 					//*text transition*//
 					if (dia[0])
@@ -671,6 +672,7 @@ int main()
 
 					//characters
 					hero.render(40, 500, NULL);
+					miner.render(1050, 500, NULL);
 
 					//*text transition*//
 					if (dia[0])
@@ -812,49 +814,71 @@ int main()
 				}
 				else if (b_stage6)
 				{
-					halalSotet.render(0, 0, NULL);
-					textBox.render(0, 0, NULL);
 
-					if (dia[0])
+					if (darkness > 0)
 					{
-						if (textTransition1.w < textBoxtext1.getWidth())
-							textTransition1.w += SPEED;
-						else if (textTransition2.w < textBoxtext2.getWidth())
-							textTransition2.w += SPEED;
+						darkness -= SPEED;
+						blackTrans.setAlpha(darkness);
 					}
-					else if (dia[1])
+					else if (toLeft < SCREEN_WIDTH - 1100)
 					{
-						if (textTransition1.w < textBoxtext1.getWidth())
-							textTransition1.w += SPEED;
-						else if (textTransition2.w < textBoxtext2.getWidth())
-							textTransition2.w += SPEED;
-						else if (textTransition3.w < textBoxtext3.getWidth())
-							textTransition3.w += SPEED;
-						else if (textTransition4.w < textBoxtext4.getWidth())
-							textTransition4.w += SPEED;
-						else if (textTransition5.w < textBoxtext5.getWidth())
-							textTransition5.w += SPEED;
+						++toLeft;
 					}
+					
+					
+					cave.render(-toLeft, SCREEN_HEIGHT - cave.getHeight(), NULL);
+					hero.render((SCREEN_WIDTH - 1100) - toLeft, 500, NULL);
+					princess.render(SCREEN_WIDTH - toLeft, 500, NULL);
+					blackTrans.render(0, 0, NULL);
+					if (toLeft >= SCREEN_WIDTH - 1100)
+					{
+						textBox.render(0, 0, NULL);
+						if (dia[0])
+						{
+							if (textTransition1.w < textBoxtext1.getWidth())
+								textTransition1.w += SPEED;
+							else if (textTransition2.w < textBoxtext2.getWidth())
+								textTransition2.w += SPEED;
+						}
+						else if (dia[1])
+						{
+							if (textTransition1.w < textBoxtext1.getWidth())
+								textTransition1.w += SPEED;
+							else if (textTransition2.w < textBoxtext2.getWidth())
+								textTransition2.w += SPEED;
+							else if (textTransition3.w < textBoxtext3.getWidth())
+								textTransition3.w += SPEED;
+							else if (textTransition4.w < textBoxtext4.getWidth())
+								textTransition4.w += SPEED;
+							else if (textTransition5.w < textBoxtext5.getWidth())
+								textTransition5.w += SPEED;
+						}
 
-					if (dia[0])
-					{
-						textBoxtext1.render(300, 530, &textTransition1);
-						textBoxtext2.render(300, 570, &textTransition2);
+						if (dia[0])
+						{
+							textBoxtext1.render(300, 530, &textTransition1);
+							textBoxtext2.render(300, 570, &textTransition2);
+						}
+						else if (dia[1])
+						{
+							textBoxtext1.render(300, 530, &textTransition1);
+							textBoxtext2.render(300, 560, &textTransition2);
+							textBoxtext3.render(300, 590, &textTransition3);
+							textBoxtext4.render(300, 620, &textTransition4);
+							textBoxtext5.render(300, 650, &textTransition5);
+						}
 					}
-					else if (dia[1])
-					{
-						textBoxtext1.render(300, 530, &textTransition1);
-						textBoxtext2.render(300, 560, &textTransition2);
-						textBoxtext3.render(300, 590, &textTransition3);
-						textBoxtext4.render(300, 620, &textTransition4);
-						textBoxtext5.render(300, 650, &textTransition5);
-					}
+					
 				}
 				else if (b_stage7)
 				{
-					halalSotet.render(0, 0, NULL);
+					
+					cave.render(-toLeft, SCREEN_HEIGHT - cave.getHeight(), NULL);
+					hero.render((SCREEN_WIDTH - 1100) - toLeft, 500, NULL);
+					princess.render(SCREEN_WIDTH - toLeft, 500, NULL);
 					textBox.render(0, 0, NULL);
 					mero[meroindex].render(0, 0, NULL);
+					lovemeter.render(50, 185, NULL);
 
 					if (dia[0])
 					{
