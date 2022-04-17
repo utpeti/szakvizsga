@@ -26,7 +26,7 @@ SDL_Renderer* Renderer = NULL;
 Mix_Music* Oblivion = NULL;
 Mix_Music* Cave = NULL;
 
-LImage mainMenu, blackTrans, kastely, kastely_belso, hid, akasztott, halalSotet, gameOver, keseles, banyaBejar, goblin, banyaBelso, princess, hero, hero_dark, king;
+LImage mainMenu, blackTrans, kastely, kastely_belso, hid, akasztott, halalSotet, gameOver, keseles, banyaBejar, goblin, banyaBelso, princess, hero, hero_dark, king, miner, cave, lovemeter;
 LImage textBox;
 LImage textBoxtext1, textBoxtext2, textBoxtext3, textBoxtext4, textBoxtext5, textBoxtext6, textBoxtext7;
 LImage mainMenuText;
@@ -51,6 +51,7 @@ bool b_mainMenu, b_stage0, b_stage1, b_stage2, b_stage3, b_stage4, b_stage5, b_s
 bool b_stage_akasztas, b_stage_keseles;
 bool dia[20];
 Uint8 darkness;
+int toLeft = 0;
 int startTime;
 unsigned int meroindex = 1;
 
@@ -189,6 +190,11 @@ bool loadMedia()
         std::cout << IMG_GetError() << "\n";
         return false;
     }
+    if (!cave.loadFromFile("images/cave2.png"))
+    {
+        std::cout << IMG_GetError() << "\n";
+        return false;
+    }
     if (!mero[1].loadFromFile("Images/meroke.png"))
     {
         std::cout << IMG_GetError() << "\n";
@@ -213,7 +219,12 @@ bool loadMedia()
     {
         std::cout << IMG_GetError() << "\n";
     }
-    if (!goblin.loadFromFile("Images/goblin.png"))
+    if (!lovemeter.loadFromFile("images/lovemeter.png"))
+    {
+        std::cout << IMG_GetError() << "\n";
+    }
+    //characters//
+    if (!goblin.loadFromFile("Images/goblin2.png"))
     {
         std::cout << IMG_GetError() << "\n";
     }
@@ -230,6 +241,10 @@ bool loadMedia()
         std::cout << IMG_GetError() << "\n";
     }
     if (!king.loadFromFile("images/king.png"))
+    {
+        std::cout << IMG_GetError() << "\n";
+    }
+    if (!miner.loadFromFile("images/miner_dark.png"))
     {
         std::cout << IMG_GetError() << "\n";
     }
@@ -754,7 +769,7 @@ void loadTextsStage7()
     {
         std::cout << TTF_GetError() << "\n";
     }
-    if (!textBoxtext3.loadFromRenderedText(" just kindly tell me where is you kidnapper!", { 200, 200, 200 }, textFont))
+    if (!textBoxtext3.loadFromRenderedText(" just kindly tell me where is your kidnapper!", { 200, 200, 200 }, textFont))
     {
         std::cout << TTF_GetError() << "\n";
     }
@@ -995,7 +1010,7 @@ void changeDialogStage7()
     }
     else if (i + 1 == 10)
     {
-        if (!textBoxtext1.loadFromRenderedText("If you come back with me:", { 255, 153, 255 }, textFont))
+        if (!textBoxtext1.loadFromRenderedText("If you come back with me:", { 255, 255, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
