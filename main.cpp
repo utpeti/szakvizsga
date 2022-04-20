@@ -1,8 +1,8 @@
 #define SDL_MAIN_HANDLED
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
-#include <SDL_mixer.h>
+#include "../SDL2/include/SDL.h"
+#include "../SDL2/SDL2_Image/include/SDL_image.h"
+#include "../SDL2/SDL2_mixer/include/SDL_mixer.h"
+#include "../SDL2/SDL2_ttf/include/SDL_ttf.h"
 #include "functions.h"
 #include "Classes.h"
 #include <iostream>
@@ -12,15 +12,14 @@ using namespace std;
 
 //#undef main
 
-
 const int SPEED = 5;
 
 extern SDL_Window* Window;
 extern SDL_Renderer* Renderer;
-extern LButtonPosition buttons[5];
-extern bool b_mainMenu, b_stage0, b_stage1, b_stage2, b_stage3, b_stage4, b_stage5, b_stage6, b_stage7, dia[20], b_stage_akasztas, b_stage_keseles, b_stage_asthma;
+extern Mix_Music* Oblivion;
+extern LButtonPosition buttons[2];
+extern bool b_mainMenu, b_stage0, b_stage1, b_stage2, b_stage3, b_stage4, dia[20], b_stage_akasztas, b_stage_keseles;
 extern unsigned int meroindex;
-
 
 int main()
 {
@@ -32,7 +31,7 @@ int main()
 
 			bool quit = false;
 			SDL_Event e;
-
+			
 			while (!quit)
 			{
 				while (SDL_PollEvent(&e) != 0)
@@ -50,7 +49,7 @@ int main()
 					{
 						if (e.type == SDL_KEYDOWN)
 						{
-							if (!dia[1])
+							if(!dia[1])
 								changeDialogStage0();
 							else
 							{
@@ -94,7 +93,7 @@ int main()
 								}
 							}
 						}
-
+						
 					}
 					else if (b_stage2)
 					{
@@ -126,7 +125,7 @@ int main()
 								}
 							}
 						}
-
+						
 					}
 					else if (b_stage3)
 					{
@@ -142,15 +141,15 @@ int main()
 								darkness = 255;
 								loadTextsStage_akasztas();
 							}
-							else if (!dia[3])
+							else if(!dia[3])
 								changeDialogStage3();
-							else if (dia[3])
+							else if(dia[3])
 							{
 								if (e.key.keysym.sym == SDLK_1)
 								{
 									changeDialogStage3();
 								}
-								else if (e.key.keysym.sym == SDLK_2)
+								else if(e.key.keysym.sym == SDLK_2)
 								{
 									b_stage3 = false;
 									b_stage4 = true;
@@ -159,13 +158,15 @@ int main()
 									dia[0] = true;
 									darkness = 255;
 									loadTextsStage4();
+									Mix_HaltMusic();
+									Mix_PlayMusic(Cave, -1);
 								}
 								else if (e.key.keysym.sym == SDLK_3)
 								{
 									changeDialogStage3();
 								}
 							}
-
+							
 						}
 					}
 					else if (b_stage4)
@@ -201,7 +202,7 @@ int main()
 							else if (e.key.keysym.sym == SDLK_2)
 							{
 								b_stage5 = false;
-								b_stage_asthma = true;
+								//b_stage_asthma = true;
 								for (int i = 0; i < 6; ++i)
 									dia[i] = false;
 								dia[0] = true;
@@ -240,159 +241,159 @@ int main()
 					}
 					else if (b_stage7)
 					{
-						if (e.type == SDL_KEYDOWN)
+					if (e.type == SDL_KEYDOWN)
+					{
+						if (!dia[20])
 						{
-							if (!dia[20])
+							if (dia[0])
+								changeDialogStage7();
+							else if (dia[1])
+								changeDialogStage7();
+							else if (dia[2])
+								changeDialogStage7();
+							else if (dia[3])
+								changeDialogStage7();
+							else if (dia[4])
 							{
-								if (dia[0])
+								if (e.key.keysym.sym == SDLK_1)
+								{
 									changeDialogStage7();
-								else if (dia[1])
+									++meroindex;
+								}
+								else if (e.key.keysym.sym == SDLK_2)
+								{
 									changeDialogStage7();
-								else if (dia[2])
-									changeDialogStage7();
-								else if (dia[3])
-									changeDialogStage7();
-								else if (dia[4])
-								{
-									if (e.key.keysym.sym == SDLK_1)
-									{
-										changeDialogStage7();
-										++meroindex;
-									}
-									else if (e.key.keysym.sym == SDLK_2)
-									{
-										changeDialogStage7();
-									}
-									else if (e.key.keysym.sym == SDLK_3)
-									{
-										b_stage7 = false;
-										b_stage_akasztas = true;
-										for (int i = 0; i < 6; ++i)
-											dia[i] = false;
-										dia[0] = true;
-										darkness = 255;
-										loadTextsStage_akasztas();
-										//itt ebben a pillanatban meg is halsz
-									}
 								}
-								else if (dia[5])
+								else if (e.key.keysym.sym == SDLK_3)
 								{
-									if (e.key.keysym.sym == SDLK_1)
-									{
-										b_stage7 = false;
-										b_stage_akasztas = true;
-										for (int i = 0; i < 6; ++i)
-											dia[i] = false;
-										dia[0] = true;
-										darkness = 255;
-										loadTextsStage_akasztas();
-										//itt ebben a pillanatban meg is halsz
-									}
-									else if (e.key.keysym.sym == SDLK_2)
-									{
-										changeDialogStage7();
-										++meroindex;
-									}
-									else if (e.key.keysym.sym == SDLK_3)
-									{
-										changeDialogStage7();
-									}
-								}
-								else if (dia[6])
-								{
-									if (e.key.keysym.sym == SDLK_1)
-									{
-										changeDialogStage7();
-										--meroindex;
-									}
-									else if (e.key.keysym.sym == SDLK_2)
-									{
-										changeDialogStage7();
-									}
-									else if (e.key.keysym.sym == SDLK_3)
-									{
-										changeDialogStage7();
-										++meroindex;
-									}
-								}
-								else if (dia[7])
-								{
-									if (e.key.keysym.sym == SDLK_1)
-									{
-										changeDialogStage7();
-									}
-									else if (e.key.keysym.sym == SDLK_2)
-									{
-										changeDialogStage7();
-										--meroindex;
-									}
-									else if (e.key.keysym.sym == SDLK_3)
-									{
-										changeDialogStage7();
-										++meroindex;
-									}
-								}
-								else if (dia[8])
-								{
-									if (e.key.keysym.sym == SDLK_1)
-									{
-										changeDialogStage7();
-									}
-									else if (e.key.keysym.sym == SDLK_2)
-									{
-										changeDialogStage7();
-									}
-									else if (e.key.keysym.sym == SDLK_3)
-									{
-										changeDialogStage7();
-									}
-								}
-								else if (dia[9])
-								{
-									if (e.key.keysym.sym == SDLK_1)
-									{
-										//changeDialogStage7();
-										meroindex -= 2;
-									}
-									else if (e.key.keysym.sym == SDLK_2)
-									{
-										cout << "ok";
-										//changeDialogStage7() itt kell folytatni;
-									}
-									else if (e.key.keysym.sym == SDLK_3)
-									{
-										changeDialogStage7();
-									}
-								}
-								else if (dia[10])
-								{
-									if (e.key.keysym.sym == SDLK_1)
-									{
-										cout << "ok";
-										//changeDialogStage7();
-									}
-									else if (e.key.keysym.sym == SDLK_2)
-									{
-										cout << "ok";
-										//changeDialogStage7() itt kell folytatni;
-									}
-									else if (e.key.keysym.sym == SDLK_3)
-									{
-										cout << "ok";
-										//changeDialogStage7();
-									}
+									b_stage7 = false;
+									b_stage_akasztas = true;
+									for (int i = 0; i < 6; ++i)
+										dia[i] = false;
+									dia[0] = true;
+									darkness = 255;
+									loadTextsStage_akasztas();
+									//itt ebben a pillanatban meg is halsz
 								}
 							}
-							else
+							else if (dia[5])
 							{
-								b_stage7 = false;
-								//valami befejezes?
-								for (int i = 0; i < 6; ++i)
-									dia[i] = false;
-								dia[0] = true;
-								darkness = 255;
+								if (e.key.keysym.sym == SDLK_1)
+								{
+									b_stage7 = false;
+									b_stage_akasztas = true;
+									for (int i = 0; i < 6; ++i)
+										dia[i] = false;
+									dia[0] = true;
+									darkness = 255;
+									loadTextsStage_akasztas();
+									//itt ebben a pillanatban meg is halsz
+								}
+								else if (e.key.keysym.sym == SDLK_2)
+								{
+									changeDialogStage7();
+									++meroindex;
+								}
+								else if (e.key.keysym.sym == SDLK_3)
+								{
+									changeDialogStage7();
+								}
+							}
+							else if (dia[6])
+							{
+								if (e.key.keysym.sym == SDLK_1)
+								{
+									changeDialogStage7();
+									--meroindex;
+								}
+								else if (e.key.keysym.sym == SDLK_2)
+								{
+									changeDialogStage7();
+								}
+								else if (e.key.keysym.sym == SDLK_3)
+								{
+									changeDialogStage7();
+									++meroindex;
+								}
+							}
+							else if (dia[7])
+							{
+								if (e.key.keysym.sym == SDLK_1)
+								{
+									changeDialogStage7();
+								}
+								else if (e.key.keysym.sym == SDLK_2)
+								{
+									changeDialogStage7();
+									--meroindex;
+								}
+								else if (e.key.keysym.sym == SDLK_3)
+								{
+									changeDialogStage7();
+									++meroindex;
+								}
+							}
+							else if (dia[8])
+							{
+								if (e.key.keysym.sym == SDLK_1)
+								{
+									changeDialogStage7();
+								}
+								else if (e.key.keysym.sym == SDLK_2)
+								{
+									changeDialogStage7();
+								}
+								else if (e.key.keysym.sym == SDLK_3)
+								{
+									changeDialogStage7();
+								}
+							}
+							else if (dia[9])
+							{
+								if (e.key.keysym.sym == SDLK_1)
+								{
+									//changeDialogStage7();
+									meroindex -= 2;
+								}
+								else if (e.key.keysym.sym == SDLK_2)
+								{
+									cout << "ok";
+									//changeDialogStage7() itt kell folytatni;
+								}
+								else if (e.key.keysym.sym == SDLK_3)
+								{
+									changeDialogStage7();
+								}
+							}
+							else if (dia[10])
+							{
+								if (e.key.keysym.sym == SDLK_1)
+								{
+									cout << "ok";
+									//changeDialogStage7();
+								}
+								else if (e.key.keysym.sym == SDLK_2)
+								{
+									cout << "ok";
+									//changeDialogStage7() itt kell folytatni;
+								}
+								else if (e.key.keysym.sym == SDLK_3)
+								{
+									cout << "ok";
+									//changeDialogStage7();
+								}
 							}
 						}
+						else
+						{
+							b_stage7 = false;
+							//valami befejezes?
+							for (int i = 0; i < 6; ++i)
+								dia[i] = false;
+							dia[0] = true;
+							darkness = 255;
+						}
+					}
 					}
 					else if (b_stage_akasztas)
 					{
@@ -402,6 +403,8 @@ int main()
 							b_mainMenu = true;
 							darkness = 255;
 						}
+						if (Mix_PlayingMusic())
+							Mix_HaltMusic();
 					}
 					else if (b_stage_keseles)
 					{
@@ -411,6 +414,8 @@ int main()
 							b_mainMenu = true;
 							darkness = 255;
 						}
+						if (Mix_PlayingMusic())
+							Mix_HaltMusic();
 					}
 				}
 
@@ -439,7 +444,7 @@ int main()
 					kastely.renderAnimation(0, 0, NULL);
 					blackTrans.render(0, 0, NULL);
 					textBox.render(0, 0, NULL);
-
+					
 					///text transition///
 					if (dia[0])
 					{
@@ -501,6 +506,10 @@ int main()
 					textBox.render(0, 0, NULL);
 					blackTrans.render(0, 0, NULL);
 
+					//characters
+					king.render(1050, 450, NULL);
+					hero.render(40, 500, NULL);
+
 					//*text transition*//
 					if (dia[0])
 					{
@@ -528,7 +537,7 @@ int main()
 					{
 						if (textTransition1.w < textBoxtext1.getWidth())
 							textTransition1.w += SPEED;
-
+						
 					}
 					else if (dia[4])
 					{
@@ -539,7 +548,7 @@ int main()
 						else if (textTransition3.w < textBoxtext3.getWidth())
 							textTransition3.w += SPEED;
 					}
-
+					
 					//*text rendering*//
 					if (dia[0])
 					{
@@ -566,7 +575,7 @@ int main()
 						textBoxtext2.render(300, 550, &textTransition2);
 						textBoxtext3.render(300, 570, &textTransition3);
 					}
-
+					
 				}
 				else if (b_stage2)
 				{
@@ -579,8 +588,12 @@ int main()
 					//textures//
 					hid.render(0, 0, NULL);
 					textBox.render(0, 0, NULL);
-					//goblin.render(585, 350, NULL);
 					blackTrans.render(0, 0, NULL);
+
+					//characters
+					hero.render(40, 450, NULL);
+					goblin.render(1050, 500, NULL);
+
 
 					//*text transition*//
 					if (dia[0])
@@ -656,6 +669,10 @@ int main()
 					banyaBejar.render(0, 0, NULL);
 					textBox.render(0, 0, NULL);
 					blackTrans.render(0, 0, NULL);
+
+					//characters
+					hero.render(40, 500, NULL);
+					miner.render(1050, 500, NULL);
 
 					//*text transition*//
 					if (dia[0])
@@ -736,11 +753,10 @@ int main()
 						textBoxtext2.render(300, 550, &textTransition2);
 						textBoxtext3.render(300, 570, &textTransition3);
 					}
-
 				}
 				else if (b_stage4)
 				{
-					black.render(0, 0, NULL);
+					halalSotet.render(0, 0, NULL);
 					textBox.render(0, 0, NULL);
 
 					if (dia[0])
@@ -769,6 +785,7 @@ int main()
 					{
 						darkness -= SPEED;
 						blackTrans.setAlpha(darkness);
+						Mix_VolumeMusic(128 - darkness);
 					}
 
 					banyaBelso.render(0, 0, NULL);
@@ -797,49 +814,71 @@ int main()
 				}
 				else if (b_stage6)
 				{
-					black.render(0, 0, NULL);
-					textBox.render(0, 0, NULL);
 
-					if (dia[0])
+					if (darkness > 0)
 					{
-						if (textTransition1.w < textBoxtext1.getWidth())
-							textTransition1.w += SPEED;
-						else if (textTransition2.w < textBoxtext2.getWidth())
-							textTransition2.w += SPEED;
+						darkness -= SPEED;
+						blackTrans.setAlpha(darkness);
 					}
-					else if (dia[1])
+					else if (toLeft < SCREEN_WIDTH - 1100)
 					{
-						if (textTransition1.w < textBoxtext1.getWidth())
-							textTransition1.w += SPEED;
-						else if (textTransition2.w < textBoxtext2.getWidth())
-							textTransition2.w += SPEED;
-						else if (textTransition3.w < textBoxtext3.getWidth())
-							textTransition3.w += SPEED;
-						else if (textTransition4.w < textBoxtext4.getWidth())
-							textTransition4.w += SPEED;
-						else if (textTransition5.w < textBoxtext5.getWidth())
-							textTransition5.w += SPEED;
+						++toLeft;
 					}
+					
+					
+					cave.render(-toLeft, SCREEN_HEIGHT - cave.getHeight(), NULL);
+					hero.render((SCREEN_WIDTH - 1100) - toLeft, 500, NULL);
+					princess.render(SCREEN_WIDTH - toLeft, 500, NULL);
+					blackTrans.render(0, 0, NULL);
+					if (toLeft >= SCREEN_WIDTH - 1100)
+					{
+						textBox.render(0, 0, NULL);
+						if (dia[0])
+						{
+							if (textTransition1.w < textBoxtext1.getWidth())
+								textTransition1.w += SPEED;
+							else if (textTransition2.w < textBoxtext2.getWidth())
+								textTransition2.w += SPEED;
+						}
+						else if (dia[1])
+						{
+							if (textTransition1.w < textBoxtext1.getWidth())
+								textTransition1.w += SPEED;
+							else if (textTransition2.w < textBoxtext2.getWidth())
+								textTransition2.w += SPEED;
+							else if (textTransition3.w < textBoxtext3.getWidth())
+								textTransition3.w += SPEED;
+							else if (textTransition4.w < textBoxtext4.getWidth())
+								textTransition4.w += SPEED;
+							else if (textTransition5.w < textBoxtext5.getWidth())
+								textTransition5.w += SPEED;
+						}
 
-					if (dia[0])
-					{
-						textBoxtext1.render(300, 530, &textTransition1);
-						textBoxtext2.render(300, 570, &textTransition2);
+						if (dia[0])
+						{
+							textBoxtext1.render(300, 530, &textTransition1);
+							textBoxtext2.render(300, 570, &textTransition2);
+						}
+						else if (dia[1])
+						{
+							textBoxtext1.render(300, 530, &textTransition1);
+							textBoxtext2.render(300, 560, &textTransition2);
+							textBoxtext3.render(300, 590, &textTransition3);
+							textBoxtext4.render(300, 620, &textTransition4);
+							textBoxtext5.render(300, 650, &textTransition5);
+						}
 					}
-					else if (dia[1])
-					{
-						textBoxtext1.render(300, 530, &textTransition1);
-						textBoxtext2.render(300, 560, &textTransition2);
-						textBoxtext3.render(300, 590, &textTransition3);
-						textBoxtext4.render(300, 620, &textTransition4);
-						textBoxtext5.render(300, 650, &textTransition5);
-					}
+					
 				}
 				else if (b_stage7)
 				{
-					black.render(0, 0, NULL);
+					
+					cave.render(-toLeft, SCREEN_HEIGHT - cave.getHeight(), NULL);
+					hero.render((SCREEN_WIDTH - 1100) - toLeft, 500, NULL);
+					princess.render(SCREEN_WIDTH - toLeft, 500, NULL);
 					textBox.render(0, 0, NULL);
 					mero[meroindex].render(0, 0, NULL);
+					lovemeter.render(50, 185, NULL);
 
 					if (dia[0])
 					{
@@ -944,27 +983,27 @@ int main()
 					}
 					else if (dia[9])
 					{
-					if (textTransition1.w < textBoxtext1.getWidth())
-						textTransition1.w += SPEED;
-					else if (textTransition2.w < textBoxtext2.getWidth())
-						textTransition2.w += SPEED;
-					else if (textTransition3.w < textBoxtext3.getWidth())
-						textTransition3.w += SPEED;
-					else if (textTransition4.w < textBoxtext4.getWidth())
-						textTransition4.w += SPEED;
-					else if (textTransition5.w < textBoxtext5.getWidth())
-						textTransition5.w += SPEED;
+						if (textTransition1.w < textBoxtext1.getWidth())
+							textTransition1.w += SPEED;
+						else if (textTransition2.w < textBoxtext2.getWidth())
+							textTransition2.w += SPEED;
+						else if (textTransition3.w < textBoxtext3.getWidth())
+							textTransition3.w += SPEED;
+						else if (textTransition4.w < textBoxtext4.getWidth())
+							textTransition4.w += SPEED;
+						else if (textTransition5.w < textBoxtext5.getWidth())
+							textTransition5.w += SPEED;
 					}
 					else if (dia[10])
 					{
-					if (textTransition1.w < textBoxtext1.getWidth())
-						textTransition1.w += SPEED;
-					else if (textTransition2.w < textBoxtext2.getWidth())
-						textTransition2.w += SPEED;
-					else if (textTransition3.w < textBoxtext3.getWidth())
-						textTransition3.w += SPEED;
-					else if (textTransition4.w < textBoxtext4.getWidth())
-						textTransition4.w += SPEED;
+						if (textTransition1.w < textBoxtext1.getWidth())
+							textTransition1.w += SPEED;
+						else if (textTransition2.w < textBoxtext2.getWidth())
+							textTransition2.w += SPEED;
+						else if (textTransition3.w < textBoxtext3.getWidth())
+							textTransition3.w += SPEED;
+						else if (textTransition4.w < textBoxtext4.getWidth())
+							textTransition4.w += SPEED;
 					}
 
 					if (dia[0])
@@ -1055,7 +1094,7 @@ int main()
 						blackTrans.setAlpha(darkness);
 					}
 
-
+					
 					halalSotet.render(0, 0, NULL);
 					textBox.render(0, 0, NULL);
 					gameOver.render((SCREEN_WIDTH - gameOver.getWidth()) / 2, (SCREEN_HEIGHT - gameOver.getHeight()) / 2, NULL);
@@ -1077,6 +1116,7 @@ int main()
 						textBoxtext2.render(300, 560, &textTransition2);
 					}
 				}
+
 				else if (b_stage_keseles)
 				{
 					if (darkness > 0)
@@ -1089,7 +1129,7 @@ int main()
 					keseles.render((SCREEN_WIDTH - keseles.getWidth()) / 2, (SCREEN_HEIGHT - keseles.getHeight()) / 2, NULL);
 					textBox.render(0, 0, NULL);
 					blackTrans.render(0, 0, NULL);
-
+					
 					//textTranstiion
 					if (dia[0])
 					{
@@ -1110,8 +1150,15 @@ int main()
 					}
 				}
 
+				
 				SDL_RenderPresent(Renderer);
+
+				
+				
+				
 			}
 		}
 	}
+	
+	
 }
