@@ -1,12 +1,16 @@
 #pragma once
 #include <iostream>
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
-#include <SDL_mixer.h>
+#include "../SDL2/include/SDL.h"
+#include "../SDL2/SDL2_Image/include/SDL_image.h"
+#include "../SDL2/SDL2_mixer/include/SDL_mixer.h"
+#include "../SDL2/SDL2_ttf/include/SDL_ttf.h"
 #include "Classes.h"
 #include <string>
 #include <sstream>
+/*#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
+#include <SDL_mixer.h>*/
 
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
@@ -19,14 +23,17 @@ const int MAX_BUTTONS = 2;
 SDL_Window* Window = NULL;
 SDL_Renderer* Renderer = NULL;
 
-LImage mainMenu, blackTrans, kastely, kastely_belso, hid, akasztott, halalSotet, gameOver, keseles, banyaBejar, banyaBelso, black, asthma;
+Mix_Music* Oblivion = NULL;
+Mix_Music* Cave = NULL;
+
+LImage mainMenu, blackTrans, kastely, kastely_belso, hid, akasztott, halalSotet, gameOver, keseles, banyaBejar, goblin, banyaBelso, princess, hero, hero_dark, king, miner, cave, lovemeter;
 LImage textBox;
 LImage textBoxtext1, textBoxtext2, textBoxtext3, textBoxtext4, textBoxtext5, textBoxtext6, textBoxtext7;
-LImage mainMenuText;
-LImage mero[6];
+LImage mainMenuText, description, back;//?
+LImage mero[7];
 
 //textura gomboknak ezt a ket classt ossze lehetne tenni
-LButtonPosition buttons[5];
+LButtonPosition buttons[2];
 
 TTF_Font* menuFont = NULL;
 TTF_Font* textFont = NULL;
@@ -41,9 +48,10 @@ SDL_Rect textTransition6 = { 0, 0, 0, 15 };
 
 
 bool b_mainMenu, b_stage0, b_stage1, b_stage2, b_stage3, b_stage4, b_stage5, b_stage6, b_stage7;
-bool b_stage_akasztas, b_stage_keseles, b_stage_asthma;
+bool b_stage_akasztas, b_stage_keseles;
 bool dia[20];
 Uint8 darkness;
+int toLeft = 0;
 int startTime;
 unsigned int meroindex = 1;
 
@@ -93,7 +101,7 @@ bool init()
     //initialize sdl mixer
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096) < 0)    //sound frequency(44100-standard), sample format
     {
-        //2 channels (stereo), chunksize (4096 for music) (minden hangnak a merete byte-ban: tul kicsi-kimarad, tul nagy-laggol)
+                                                            //2 channels (stereo), chunksize (4096 for music) (minden hangnak a merete byte-ban: tul kicsi-kimarad, tul nagy-laggol)
         std::cout << Mix_GetError();
         return false;
     }
@@ -101,7 +109,7 @@ bool init()
     startTime = SDL_GetTicks();
 
     return true;
-
+   
 }
 
 bool loadMedia()
@@ -114,7 +122,7 @@ bool loadMedia()
         return false;
     }
     textFont = TTF_OpenFont("prstart.ttf", 15);
-    if (textFont == NULL)
+    if(textFont == NULL)
     {
         std::cout << TTF_GetError() << "\n";
         return false;
@@ -157,7 +165,7 @@ bool loadMedia()
         std::cout << IMG_GetError() << "\n";
         return false;
     }
-    if (!halalSotet.loadFromFile("Images/death.png"))
+    if (!halalSotet.loadFromFile("Images/black.png"))
     {
         std::cout << IMG_GetError() << "\n";
         return false;
@@ -180,14 +188,12 @@ bool loadMedia()
     if (!banyaBelso.loadFromFile("Images/banya_belso.png"))
     {
         std::cout << IMG_GetError() << "\n";
+        return false;
     }
-    if (!black.loadFromFile("Images/black.png"))
+    if (!cave.loadFromFile("images/cave2.png"))
     {
         std::cout << IMG_GetError() << "\n";
-    }
-    if (!asthma.loadFromFile("Images/asthma.png"))
-    {
-        std::cout << IMG_GetError() << "\n";
+        return false;
     }
     if (!mero[1].loadFromFile("Images/meroke.png"))
     {
@@ -213,8 +219,37 @@ bool loadMedia()
     {
         std::cout << IMG_GetError() << "\n";
     }
+    if (!lovemeter.loadFromFile("images/lovemeter.png"))
+    {
+        std::cout << IMG_GetError() << "\n";
+    }
+    //characters//
+    if (!goblin.loadFromFile("Images/goblin2.png"))
+    {
+        std::cout << IMG_GetError() << "\n";
+    }
+    if (!princess.loadFromFile("Images/princess.png"))
+    {
+        std::cout << IMG_GetError() << "\n";
+    }
+    if (!hero.loadFromFile("images/protagonist2.png"))
+    {
+        std::cout << IMG_GetError() << "\n";
+    }
+    if (!hero_dark.loadFromFile("images/protagonist_dark.png"))
+    {
+        std::cout << IMG_GetError() << "\n";
+    }
+    if (!king.loadFromFile("images/king.png"))
+    {
+        std::cout << IMG_GetError() << "\n";
+    }
+    if (!miner.loadFromFile("images/miner_dark.png"))
+    {
+        std::cout << IMG_GetError() << "\n";
+    }
     ///Texts///
-    SDL_Color textColor = { 0, 0, 0 };
+    SDL_Color textColor = {0, 0, 0};
     if (!mainMenuText.loadFromRenderedText("Save The Girl", textColor, menuFont))
     {
         std::cout << TTF_GetError() << "\n";
@@ -228,12 +263,22 @@ bool loadMedia()
         std::cout << IMG_GetError() << "\n";
         return false;
     }
-    ///Characters///
+    ///Music///
+    Oblivion = Mix_LoadMUS(("Sounds/Oblivion.mp3"));
+    if (Oblivion == NULL)
+    {
+        std::cout << Mix_GetError() << "\n";
+        return false;
+    }
+    Cave = Mix_LoadMUS(("Sounds/Cavesound.mp3"));
+    if (Cave == NULL)
+    {
+        std::cout << Mix_GetError() << "\n";
+        return false;
+    }
 
 
-
-
-
+    
 
 
     ///Button position///
@@ -242,7 +287,7 @@ bool loadMedia()
     //buttons indexes
     for (int i = 0; i < MAX_BUTTONS; ++i)
         buttons[i].index = i;
-
+    
     return true;
 }
 
@@ -312,6 +357,7 @@ void changeDialogStage0()
 
 void loadTextsStage1() //loads initial texts and sets other stuff
 {
+    Mix_VolumeMusic(SDL_MIX_MAXVOLUME / 4);
     if (!textBoxtext1.loadFromRenderedText("EMPEROR: You are probably wondering why I invited", { 153, 51, 255 }, textFont))
     {
         std::cout << TTF_GetError() << "\n";
@@ -604,6 +650,8 @@ void changeDialogStage3()
 
 void loadTextsStage4()
 {
+
+    Mix_VolumeMusic(MIX_MAX_VOLUME);
     if (!textBoxtext1.loadFromRenderedText("You managed to enter a mine...good job!", { 200, 200, 200 }, textFont))
     {
         std::cout << TTF_GetError() << "\n";
@@ -711,6 +759,8 @@ void changeDialogStage6()
 
 void loadTextsStage7()
 {
+    Mix_VolumeMusic(MIX_MAX_VOLUME / 10);
+
     if (!textBoxtext1.loadFromRenderedText("YOU: Excuse me Miss! There is no need to be", { 200, 200, 200 }, textFont))
     {
         std::cout << TTF_GetError() << "\n";
@@ -719,7 +769,7 @@ void loadTextsStage7()
     {
         std::cout << TTF_GetError() << "\n";
     }
-    if (!textBoxtext3.loadFromRenderedText(" just kindly tell me where is you kidnapper!", { 200, 200, 200 }, textFont))
+    if (!textBoxtext3.loadFromRenderedText(" just kindly tell me where is your kidnapper!", { 200, 200, 200 }, textFont))
     {
         std::cout << TTF_GetError() << "\n";
     }
@@ -735,7 +785,7 @@ void changeDialogStage7()
 
     dia[i] = false;
     dia[i + 1] = true;
-    if(i + 1 == 1)
+    if (i + 1 == 1)
     {
         if (!textBoxtext1.loadFromRenderedText("PRINCESS: If you came here to bring me back", { 255, 153, 255 }, textFont))
         {
@@ -761,7 +811,7 @@ void changeDialogStage7()
         }
         textTransition1 = { 0, 0, 0, 15 };
     }
-    else if(i + 1 == 3)
+    else if (i + 1 == 3)
     {
         if (!textBoxtext1.loadFromRenderedText("PRINCESS: I payed him to defend me and let in", { 255, 153, 255 }, textFont))
         {
@@ -803,7 +853,7 @@ void changeDialogStage7()
         {
             std::cout << TTF_GetError() << "\n";
         }
-        if (!textBoxtext4.loadFromRenderedText("3. Beacuse of the reward", { 255, 255, 255 }, textFont))
+        if (!textBoxtext4.loadFromRenderedText("3. Because of the reward", { 255, 255, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
@@ -814,7 +864,7 @@ void changeDialogStage7()
     }
     else if (i + 1 == 5)
     {
-        if (!textBoxtext1.loadFromRenderedText("Why do you help for my father?", { 255, 153, 255 }, textFont))
+        if (!textBoxtext1.loadFromRenderedText("Why do you help my father?", { 255, 153, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
@@ -854,7 +904,7 @@ void changeDialogStage7()
         {
             std::cout << TTF_GetError() << "\n";
         }
-        if (!textBoxtext5.loadFromRenderedText("3. Without you? Never", { 255, 255, 255 }, textFont))
+        if (!textBoxtext5.loadFromRenderedText("3. Without you? Never!", { 255, 255, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
@@ -878,11 +928,11 @@ void changeDialogStage7()
         {
             std::cout << TTF_GetError() << "\n";
         }
-        if (!textBoxtext4.loadFromRenderedText("1. It's still better in the castle", { 255, 255, 255 }, textFont))
+        if (!textBoxtext4.loadFromRenderedText("1. It's still better in the castle.", { 255, 255, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
-        if (!textBoxtext5.loadFromRenderedText("2. You need a hero, who saves you, and that's me", { 255, 255, 255 }, textFont))
+        if (!textBoxtext5.loadFromRenderedText("2. You need a hero, who saves you, and that's me.", { 255, 255, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
@@ -960,7 +1010,7 @@ void changeDialogStage7()
     }
     else if (i + 1 == 10)
     {
-        if (!textBoxtext1.loadFromRenderedText("If you come back with me:", { 255, 153, 255 }, textFont))
+        if (!textBoxtext1.loadFromRenderedText("If you come back with me:", { 255, 255, 255 }, textFont))
         {
             std::cout << TTF_GetError() << "\n";
         }
@@ -982,64 +1032,7 @@ void changeDialogStage7()
         textTransition4 = { 0, 0, 0, 15 };
     }
 }
-/*
-void changeDialogStage7_answer1()
-{
-    if (!textBoxtext1.loadFromRenderedText("I should have known...", { 200, 200, 200 }, textFont))
-    {
-        std::cout << TTF_GetError() << "\n";
-        textTransition1 = { 0, 0, 0, 15 };
-    }
-}
-void changeDialogStage7_answer2()
-{
-    if (!textBoxtext1.loadFromRenderedText("Liar!", { 200, 200, 200 }, textFont))
-    {
-        std::cout << TTF_GetError() << "\n";
-        textTransition1 = { 0, 0, 0, 15 };
-    }
-}
-void changeDialogStage7_answer3()
-{
-    if (!textBoxtext1.loadFromRenderedText("Get out of here!", { 200, 200, 200 }, textFont))
-    {
-        std::cout << TTF_GetError() << "\n";
-        textTransition1 = { 0, 0, 0, 15 };
-    }
-}
-void changeDialogStage7_answer4()
-{
-    if (!textBoxtext1.loadFromRenderedText("Get out of here!", { 200, 200, 200 }, textFont))
-    {
-        std::cout << TTF_GetError() << "\n";
-        textTransition1 = { 0, 0, 0, 15 };
-    }
-}
-void changeDialogStage7_answer5()
-{
-    if (!textBoxtext1.loadFromRenderedText("I order you to go!", { 200, 200, 200 }, textFont))
-    {
-        std::cout << TTF_GetError() << "\n";
-        textTransition1 = { 0, 0, 0, 15 };
-    }
-}
-void changeDialogStage7_answer6()
-{
-    if (!textBoxtext1.loadFromRenderedText("I can do whatever I want!", { 200, 200, 200 }, textFont))
-    {
-        std::cout << TTF_GetError() << "\n";
-        textTransition1 = { 0, 0, 0, 15 };
-    }
-}
-void changeDialogStage7_answer7()
-{
-    if (!textBoxtext1.loadFromRenderedText("^-^", { 200, 200, 200 }, textFont))
-    {
-        std::cout << TTF_GetError() << "\n";
-        textTransition1 = { 0, 0, 0, 15 };
-    }
-}
-*/
+
 int Time()
 {
     return  startTime - SDL_GetTicks();
