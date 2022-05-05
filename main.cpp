@@ -1,8 +1,8 @@
 #define SDL_MAIN_HANDLED
-#include "../SDL2/include/SDL.h"
-#include "../SDL2/SDL2_Image/include/SDL_image.h"
-#include "../SDL2/SDL2_mixer/include/SDL_mixer.h"
-#include "../SDL2/SDL2_ttf/include/SDL_ttf.h"
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
+#include <SDL_mixer.h>
 #include "functions.h"
 #include "Classes.h"
 #include <iostream>
@@ -18,7 +18,7 @@ extern SDL_Window* Window;
 extern SDL_Renderer* Renderer;
 extern Mix_Music* Oblivion;
 extern LButtonPosition buttons[2];
-extern bool b_mainMenu, b_stage0, b_stage1, b_stage2, b_stage3, b_stage4, dia[20], b_stage_akasztas, b_stage_keseles;
+extern bool b_mainMenu, b_stage0, b_stage1, b_stage2, b_stage3, b_stage4, dia[20], b_stage_akasztas, b_stage_keseles, b_stage_happyending, b_stage_asthma;
 extern unsigned int meroindex;
 
 int main()
@@ -31,7 +31,7 @@ int main()
 
 			bool quit = false;
 			SDL_Event e;
-			
+
 			while (!quit)
 			{
 				while (SDL_PollEvent(&e) != 0)
@@ -47,9 +47,9 @@ int main()
 					}
 					else if (b_stage0)
 					{
-						if (e.type == SDL_KEYDOWN)
+						if (e.type == SDL_KEYDOWN || e.type == SDL_MOUSEBUTTONDOWN)
 						{
-							if(!dia[1])
+							if (!dia[1])
 								changeDialogStage0();
 							else
 							{
@@ -65,7 +65,7 @@ int main()
 					}
 					else if (b_stage1)
 					{
-						if (e.type == SDL_KEYDOWN)
+						if (e.type == SDL_KEYDOWN || e.type == SDL_MOUSEBUTTONDOWN)
 						{
 							if (!dia[4]) //ha ez mar true, akkor meg volt az osszes parbeszedresz
 								changeDialogStage1();
@@ -93,11 +93,11 @@ int main()
 								}
 							}
 						}
-						
+
 					}
 					else if (b_stage2)
 					{
-						if (e.type == SDL_KEYDOWN)
+						if (e.type == SDL_KEYDOWN || e.type == SDL_MOUSEBUTTONDOWN)
 						{
 							if (!dia[3])
 								changeDialogStage2();
@@ -125,11 +125,11 @@ int main()
 								}
 							}
 						}
-						
+
 					}
 					else if (b_stage3)
 					{
-						if (e.type == SDL_KEYDOWN)
+						if (e.type == SDL_KEYDOWN || e.type == SDL_MOUSEBUTTONDOWN)
 						{
 							if (dia[4])
 							{
@@ -141,15 +141,15 @@ int main()
 								darkness = 255;
 								loadTextsStage_akasztas();
 							}
-							else if(!dia[3])
+							else if (!dia[3])
 								changeDialogStage3();
-							else if(dia[3])
+							else if (dia[3])
 							{
 								if (e.key.keysym.sym == SDLK_1)
 								{
 									changeDialogStage3();
 								}
-								else if(e.key.keysym.sym == SDLK_2)
+								else if (e.key.keysym.sym == SDLK_2)
 								{
 									b_stage3 = false;
 									b_stage4 = true;
@@ -166,12 +166,12 @@ int main()
 									changeDialogStage3();
 								}
 							}
-							
+
 						}
 					}
 					else if (b_stage4)
 					{
-						if (e.type == SDL_KEYDOWN)
+						if (e.type == SDL_KEYDOWN || e.type == SDL_MOUSEBUTTONDOWN)
 						{
 							if (e.key.keysym.sym == SDLK_e)
 							{
@@ -187,7 +187,7 @@ int main()
 					}
 					else if (b_stage5)
 					{
-						if (e.type == SDL_KEYDOWN)
+						if (e.type == SDL_KEYDOWN || e.type == SDL_MOUSEBUTTONDOWN)
 						{
 							if (e.key.keysym.sym == SDLK_1)
 							{
@@ -202,11 +202,12 @@ int main()
 							else if (e.key.keysym.sym == SDLK_2)
 							{
 								b_stage5 = false;
-								//b_stage_asthma = true;
+								b_stage_asthma = true;
 								for (int i = 0; i < 6; ++i)
 									dia[i] = false;
 								dia[0] = true;
 								darkness = 255;
+								loadTextsStage_asthma();
 								//halal asthma
 							}
 							else if (e.key.keysym.sym == SDLK_3)
@@ -223,7 +224,7 @@ int main()
 					}
 					else if (b_stage6)
 					{
-						if (e.type == SDL_KEYDOWN)
+						if (e.type == SDL_KEYDOWN || e.type == SDL_MOUSEBUTTONDOWN)
 						{
 							if (!dia[1])
 								changeDialogStage6();
@@ -241,163 +242,259 @@ int main()
 					}
 					else if (b_stage7)
 					{
-					if (e.type == SDL_KEYDOWN)
-					{
-						if (!dia[20])
+						if (e.type == SDL_KEYDOWN || e.type == SDL_MOUSEBUTTONDOWN)
 						{
-							if (dia[0])
-								changeDialogStage7();
-							else if (dia[1])
-								changeDialogStage7();
-							else if (dia[2])
-								changeDialogStage7();
-							else if (dia[3])
-								changeDialogStage7();
-							else if (dia[4])
+							if (!dia[20])
 							{
-								if (e.key.keysym.sym == SDLK_1)
-								{
+								if (dia[0])
 									changeDialogStage7();
-									++meroindex;
-								}
-								else if (e.key.keysym.sym == SDLK_2)
-								{
+								else if (dia[1])
 									changeDialogStage7();
-								}
-								else if (e.key.keysym.sym == SDLK_3)
+								else if (dia[2])
+									changeDialogStage7();
+								else if (dia[3])
+									changeDialogStage7();
+								else if (dia[4])
 								{
-									b_stage7 = false;
-									b_stage_akasztas = true;
-									for (int i = 0; i < 6; ++i)
-										dia[i] = false;
-									dia[0] = true;
-									darkness = 255;
-									loadTextsStage_akasztas();
-									//itt ebben a pillanatban meg is halsz
+									if (e.key.keysym.sym == SDLK_1)
+									{
+										changeDialogStage7();
+										++meroindex;
+									}
+									else if (e.key.keysym.sym == SDLK_2)
+									{
+										changeDialogStage7();
+									}
+									else if (e.key.keysym.sym == SDLK_3)
+									{
+										b_stage7 = false;
+										b_stage_akasztas = true;
+										for (int i = 0; i < 6; ++i)
+											dia[i] = false;
+										dia[0] = true;
+										darkness = 255;
+										loadTextsStage_akasztas();
+										//itt ebben a pillanatban meg is halsz
+									}
+								}
+								else if (dia[5])
+								{
+									if (e.key.keysym.sym == SDLK_1)
+									{
+										b_stage7 = false;
+										b_stage_akasztas = true;
+										for (int i = 0; i < 6; ++i)
+											dia[i] = false;
+										dia[0] = true;
+										darkness = 255;
+										loadTextsStage_akasztas();
+										//itt ebben a pillanatban meg is halsz
+									}
+									else if (e.key.keysym.sym == SDLK_2)
+									{
+										changeDialogStage7();
+										if (meroindex < 6)
+											++meroindex;
+									}
+									else if (e.key.keysym.sym == SDLK_3)
+									{
+										changeDialogStage7();
+									}
+								}
+								else if (dia[6])
+								{
+									if (e.key.keysym.sym == SDLK_1)
+									{
+										changeDialogStage7();
+										if (meroindex > 1)
+											--meroindex;
+									}
+									else if (e.key.keysym.sym == SDLK_2)
+									{
+										changeDialogStage7();
+									}
+									else if (e.key.keysym.sym == SDLK_3)
+									{
+										changeDialogStage7();
+										if (meroindex < 6)
+											++meroindex;
+									}
+								}
+								else if (dia[7])
+								{
+									if (e.key.keysym.sym == SDLK_1)
+									{
+										changeDialogStage7();
+									}
+									else if (e.key.keysym.sym == SDLK_2)
+									{
+										changeDialogStage7();
+										if (meroindex > 1)
+											--meroindex;
+									}
+									else if (e.key.keysym.sym == SDLK_3)
+									{
+										changeDialogStage7();
+										if (meroindex < 6)
+											++meroindex;
+									}
+								}
+								else if (dia[8])
+								{
+									if (e.key.keysym.sym == SDLK_1)
+									{
+										changeDialogStage7();
+									}
+									else if (e.key.keysym.sym == SDLK_2)
+									{
+										changeDialogStage7();
+									}
+									else if (e.key.keysym.sym == SDLK_3)
+									{
+										changeDialogStage7();
+									}
+								}
+								else if (dia[9])
+								{
+									if (e.key.keysym.sym == SDLK_1)
+									{
+										if (meroindex > 2)
+											meroindex -= 2;
+										else if (meroindex > 1)
+											--meroindex;
+										if (meroindex >= 4)
+										{
+											b_stage7 = false;
+											b_stage_happyending = true;
+											for (int i = 0; i < 6; ++i)
+												dia[i] = false;
+											dia[0] = true;
+											darkness = 255;
+										}
+										else
+										{
+											b_stage7 = false;
+											b_stage_akasztas = true;
+											for (int i = 0; i < 6; ++i)
+												dia[i] = false;
+											dia[0] = true;
+											darkness = 255;
+											loadTextsStage_akasztas();
+										}
+									}
+									else if (e.key.keysym.sym == SDLK_2)
+									{
+										if (meroindex >= 4)
+										{
+											b_stage7 = false;
+											b_stage_happyending = true;
+											for (int i = 0; i < 6; ++i)
+												dia[i] = false;
+											dia[0] = true;
+											darkness = 255;
+										}
+										else
+										{
+											b_stage7 = false;
+											b_stage_akasztas = true;
+											for (int i = 0; i < 6; ++i)
+												dia[i] = false;
+											dia[0] = true;
+											darkness = 255;
+											loadTextsStage_akasztas();
+										}
+									}
+									else if (e.key.keysym.sym == SDLK_3)
+									{
+										changeDialogStage7();
+									}
+								}
+								else if (dia[10])
+								{
+									if (e.key.keysym.sym == SDLK_1)
+									{
+										if (meroindex < 6)
+											++meroindex;
+										if (meroindex >= 4)
+										{
+											b_stage7 = false;
+											b_stage_happyending = true;
+											for (int i = 0; i < 6; ++i)
+												dia[i] = false;
+											dia[0] = true;
+											darkness = 255;
+										}
+										else
+										{
+											b_stage7 = false;
+											b_stage_akasztas = true;
+											for (int i = 0; i < 6; ++i)
+												dia[i] = false;
+											dia[0] = true;
+											darkness = 255;
+											loadTextsStage_akasztas();
+										}
+									}
+									else if (e.key.keysym.sym == SDLK_2)
+									{
+										if (meroindex > 2)
+											meroindex -= 2;
+										else if (meroindex > 1)
+											--meroindex;
+										if (meroindex >= 4)
+										{
+											b_stage7 = false;
+											b_stage_happyending = true;
+											for (int i = 0; i < 6; ++i)
+												dia[i] = false;
+											dia[0] = true;
+											darkness = 255;
+										}
+										else
+										{
+											b_stage7 = false;
+											b_stage_akasztas = true;
+											for (int i = 0; i < 6; ++i)
+												dia[i] = false;
+											dia[0] = true;
+											darkness = 255;
+											loadTextsStage_akasztas();
+										}
+									}
+									else if (e.key.keysym.sym == SDLK_3)
+									{
+										if (meroindex >= 4)
+										{
+											b_stage7 = false;
+											b_stage_happyending = true;
+										}
+										else
+										{
+											b_stage7 = false;
+											b_stage_akasztas = true;
+											for (int i = 0; i < 6; ++i)
+												dia[i] = false;
+											dia[0] = true;
+											darkness = 255;
+											loadTextsStage_akasztas();
+										}
+									}
 								}
 							}
-							else if (dia[5])
+							else
 							{
-								if (e.key.keysym.sym == SDLK_1)
-								{
-									b_stage7 = false;
-									b_stage_akasztas = true;
-									for (int i = 0; i < 6; ++i)
-										dia[i] = false;
-									dia[0] = true;
-									darkness = 255;
-									loadTextsStage_akasztas();
-									//itt ebben a pillanatban meg is halsz
-								}
-								else if (e.key.keysym.sym == SDLK_2)
-								{
-									changeDialogStage7();
-									++meroindex;
-								}
-								else if (e.key.keysym.sym == SDLK_3)
-								{
-									changeDialogStage7();
-								}
-							}
-							else if (dia[6])
-							{
-								if (e.key.keysym.sym == SDLK_1)
-								{
-									changeDialogStage7();
-									--meroindex;
-								}
-								else if (e.key.keysym.sym == SDLK_2)
-								{
-									changeDialogStage7();
-								}
-								else if (e.key.keysym.sym == SDLK_3)
-								{
-									changeDialogStage7();
-									++meroindex;
-								}
-							}
-							else if (dia[7])
-							{
-								if (e.key.keysym.sym == SDLK_1)
-								{
-									changeDialogStage7();
-								}
-								else if (e.key.keysym.sym == SDLK_2)
-								{
-									changeDialogStage7();
-									--meroindex;
-								}
-								else if (e.key.keysym.sym == SDLK_3)
-								{
-									changeDialogStage7();
-									++meroindex;
-								}
-							}
-							else if (dia[8])
-							{
-								if (e.key.keysym.sym == SDLK_1)
-								{
-									changeDialogStage7();
-								}
-								else if (e.key.keysym.sym == SDLK_2)
-								{
-									changeDialogStage7();
-								}
-								else if (e.key.keysym.sym == SDLK_3)
-								{
-									changeDialogStage7();
-								}
-							}
-							else if (dia[9])
-							{
-								if (e.key.keysym.sym == SDLK_1)
-								{
-									//changeDialogStage7();
-									meroindex -= 2;
-								}
-								else if (e.key.keysym.sym == SDLK_2)
-								{
-									cout << "ok";
-									//changeDialogStage7() itt kell folytatni;
-								}
-								else if (e.key.keysym.sym == SDLK_3)
-								{
-									changeDialogStage7();
-								}
-							}
-							else if (dia[10])
-							{
-								if (e.key.keysym.sym == SDLK_1)
-								{
-									cout << "ok";
-									//changeDialogStage7();
-								}
-								else if (e.key.keysym.sym == SDLK_2)
-								{
-									cout << "ok";
-									//changeDialogStage7() itt kell folytatni;
-								}
-								else if (e.key.keysym.sym == SDLK_3)
-								{
-									cout << "ok";
-									//changeDialogStage7();
-								}
+								b_stage7 = false;
+								//valami befejezes?
+								for (int i = 0; i < 6; ++i)
+									dia[i] = false;
+								dia[0] = true;
+								darkness = 255;
 							}
 						}
-						else
-						{
-							b_stage7 = false;
-							//valami befejezes?
-							for (int i = 0; i < 6; ++i)
-								dia[i] = false;
-							dia[0] = true;
-							darkness = 255;
-						}
-					}
 					}
 					else if (b_stage_akasztas)
 					{
-						if (e.type == SDL_KEYDOWN)
+						if (e.type == SDL_KEYDOWN || e.type == SDL_MOUSEBUTTONDOWN)
 						{
 							b_stage_akasztas = false;
 							b_mainMenu = true;
@@ -408,9 +505,20 @@ int main()
 					}
 					else if (b_stage_keseles)
 					{
-						if (e.type == SDL_KEYDOWN)
+						if (e.type == SDL_KEYDOWN || e.type == SDL_MOUSEBUTTONDOWN)
 						{
 							b_stage_keseles = false;
+							b_mainMenu = true;
+							darkness = 255;
+						}
+						if (Mix_PlayingMusic())
+							Mix_HaltMusic();
+					}
+					else if (b_stage_asthma)
+					{
+						if (e.type == SDL_KEYDOWN || e.type == SDL_MOUSEBUTTONDOWN)
+						{
+							b_stage_asthma = false;
 							b_mainMenu = true;
 							darkness = 255;
 						}
@@ -444,7 +552,7 @@ int main()
 					kastely.renderAnimation(0, 0, NULL);
 					blackTrans.render(0, 0, NULL);
 					textBox.render(0, 0, NULL);
-					
+
 					///text transition///
 					if (dia[0])
 					{
@@ -537,7 +645,7 @@ int main()
 					{
 						if (textTransition1.w < textBoxtext1.getWidth())
 							textTransition1.w += SPEED;
-						
+
 					}
 					else if (dia[4])
 					{
@@ -548,7 +656,7 @@ int main()
 						else if (textTransition3.w < textBoxtext3.getWidth())
 							textTransition3.w += SPEED;
 					}
-					
+
 					//*text rendering*//
 					if (dia[0])
 					{
@@ -575,7 +683,7 @@ int main()
 						textBoxtext2.render(300, 550, &textTransition2);
 						textBoxtext3.render(300, 570, &textTransition3);
 					}
-					
+
 				}
 				else if (b_stage2)
 				{
@@ -824,8 +932,8 @@ int main()
 					{
 						++toLeft;
 					}
-					
-					
+
+
 					cave.render(-toLeft, SCREEN_HEIGHT - cave.getHeight(), NULL);
 					hero.render((SCREEN_WIDTH - 1100) - toLeft, 500, NULL);
 					princess.render(SCREEN_WIDTH - toLeft, 500, NULL);
@@ -868,11 +976,11 @@ int main()
 							textBoxtext5.render(300, 650, &textTransition5);
 						}
 					}
-					
+
 				}
 				else if (b_stage7)
 				{
-					
+
 					cave.render(-toLeft, SCREEN_HEIGHT - cave.getHeight(), NULL);
 					hero.render((SCREEN_WIDTH - 1100) - toLeft, 500, NULL);
 					princess.render(SCREEN_WIDTH - toLeft, 500, NULL);
@@ -1094,7 +1202,7 @@ int main()
 						blackTrans.setAlpha(darkness);
 					}
 
-					
+
 					halalSotet.render(0, 0, NULL);
 					textBox.render(0, 0, NULL);
 					gameOver.render((SCREEN_WIDTH - gameOver.getWidth()) / 2, (SCREEN_HEIGHT - gameOver.getHeight()) / 2, NULL);
@@ -1129,7 +1237,7 @@ int main()
 					keseles.render((SCREEN_WIDTH - keseles.getWidth()) / 2, (SCREEN_HEIGHT - keseles.getHeight()) / 2, NULL);
 					textBox.render(0, 0, NULL);
 					blackTrans.render(0, 0, NULL);
-					
+
 					//textTranstiion
 					if (dia[0])
 					{
@@ -1150,15 +1258,58 @@ int main()
 					}
 				}
 
-				
+				else if (b_stage_happyending)
+				{
+					if (darkness > 0)
+					{
+						darkness -= SPEED;
+						blackTrans.setAlpha(darkness);
+					}
+
+					halalSotet.render(0, 0, NULL);
+					ending.render((SCREEN_WIDTH - ending.getWidth()) / 2, (SCREEN_HEIGHT - ending.getHeight()) / 2, NULL);
+					blackTrans.render(0, 0, NULL);
+				}
+
+				else if (b_stage_asthma)
+				{
+					if (darkness > 0)
+					{
+						darkness -= SPEED;
+						blackTrans.setAlpha(darkness);
+					}
+
+					halalSotet.render(0, 0, NULL);
+					asthma.render((SCREEN_WIDTH - asthma.getWidth()) / 2, (SCREEN_HEIGHT - asthma.getHeight()) / 2, NULL);
+					textBox.render(0, 0, NULL);
+					blackTrans.render(0, 0, NULL);
+
+					if (dia[0])
+					{
+						if (textTransition1.w < textBoxtext1.getWidth())
+							textTransition1.w += SPEED;
+						else if (textTransition2.w < textBoxtext2.getWidth())
+							textTransition2.w += SPEED;
+						else if (textTransition3.w < textBoxtext3.getWidth())
+							textTransition3.w += SPEED;
+					}
+
+					//text rendering
+					if (dia[0])
+					{
+						textBoxtext1.render(300, 530, &textTransition1);
+						textBoxtext2.render(300, 560, &textTransition2);
+						textBoxtext3.render(300, 590, &textTransition3);
+					}
+				}
+
 				SDL_RenderPresent(Renderer);
 
-				
-				
-				
+
+
+
 			}
 		}
 	}
-	
-	
+	close();
 }
